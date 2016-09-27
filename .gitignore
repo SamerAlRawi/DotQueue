@@ -1,0 +1,4 @@
+DotQueue/bin/*
+DotQueue/obj/*
+packages/*
+.vs/*
