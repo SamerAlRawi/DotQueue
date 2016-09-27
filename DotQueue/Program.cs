@@ -77,8 +77,7 @@ namespace DotQueue
     {
         public CustomContentTypeProvider()
         {
-            Mappings.Clear();
-            Mappings.Add(".html", "text/html");
+            //Mappings.Add(".js", "text/javascript");
         }
     }
 }
