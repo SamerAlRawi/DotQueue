@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Timers;
 using Topshelf;
+using System.Web.Http;
+using System.Web.Http.SelfHost;
 
 namespace DotQueue
 {
@@ -10,9 +11,9 @@ namespace DotQueue
         {
             HostFactory.Run(x =>
             {
-                x.Service<Queue>(s =>
+                x.Service<Host>(s =>
                 {
-                    s.ConstructUsing(name => new Queue());
+                    s.ConstructUsing(name => new Host());
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });
@@ -25,16 +26,23 @@ namespace DotQueue
         }
     }
 
-    public class Queue
+    public class Host
     {
-        readonly Timer _timer;
-        public Queue()
+        public Host()
         {
-            _timer = new Timer(1000) { AutoReset = true };
-            _timer.Elapsed += (sender, eventArgs) => Console.WriteLine("It is {0} and all is well", DateTime.Now);
-        }
-        public void Start() { _timer.Start(); }
-        public void Stop() { _timer.Stop(); }
-    }
+            var config = new HttpSelfHostConfiguration("http://0.0.0.0:8080");
 
+            config.Routes.MapHttpRoute("Default", "api/{controller}/{method}/{id}",
+                new { id = RouteParameter.Optional });
+
+            using (HttpSelfHostServer server = new HttpSelfHostServer(config))
+            {
+                server.OpenAsync().Wait();
+                Console.WriteLine("Press Enter to quit.");
+                Console.ReadLine();
+            }
+        }
+        public void Start() { Console.WriteLine("Host thread started."); }
+        public void Stop() { Console.WriteLine("Host thread stopped"); }
+    }
 }
