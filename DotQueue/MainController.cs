@@ -6,14 +6,6 @@ using System.Web.Http;
 
 namespace MyNamespace
 {
-    public class Message
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Category { get; set; }
-        public decimal Price { get; set; }
-    }
-
     public class MainController : ApiController
     {
         Message[] _messages = new Message[]
@@ -36,12 +28,6 @@ namespace MyNamespace
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             return product;
-        }
-
-        public IEnumerable<Message> GetProductsByCategory(string category)
-        {
-            return _messages.Where(p => string.Equals(p.Category, category,
-                StringComparison.OrdinalIgnoreCase));
         }
     }
 }
