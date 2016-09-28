@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Http.SelfHost;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Hosting;
@@ -55,6 +56,9 @@ namespace DotQueue.HostLib
             HttpSelfHostConfiguration _configuration = new HttpSelfHostConfiguration($"http://0.0.0.0:{_parameters.ApiPort}");
             _configuration.Routes.MapHttpRoute("ApiDefault", "api/{controller}/{method}/{id}",
                 new { id = RouteParameter.Optional });
+
+            _configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
+
             _httpSelfHostServer = new HttpSelfHostServer(_configuration);
             _httpSelfHostServer.OpenAsync().Wait();
         }

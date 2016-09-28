@@ -1,10 +1,10 @@
 ﻿angular.module("dotQueueApp").controller("dashboardController", function ($scope) {
     $scope.products = ["Milk", "Bread", "Cheese"];
 
-    $scope.chartData = getChartData();
+    $scope.chartData = setChartData();
 });
 
-function getChartData() {
+function setChartData() {
     return {
         labels: ["Jan", "February", "March", "April", "May", "June", "July"],
         datasets: [
