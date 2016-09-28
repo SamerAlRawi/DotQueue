@@ -1,4 +1,4 @@
-﻿namespace MyNamespace
+﻿namespace DotQueue.Api
 {
     public class Message
     {
