@@ -5,18 +5,24 @@
     <meta charset="utf-8" />
     <title>Dashboard</title>
     <link href="content/bootstrap.min.css" rel="stylesheet" />
+    <link href="content/bootstrap-theme.css" rel="stylesheet" />
     <script src="/scripts/angular.min.js"></script>
+    <link href="content/main.css" rel="stylesheet" />
+    <script src="scripts/chart.min.js"></script>
     <script src="scripts/angular-route.min.js"></script>
     <script src="/app/app.js"></script>
     <script src="/app/dashboardcontroller.js"></script>
 </head>
 <body>
-
-<div ng-app="dotQueueApp">
-    <a href="#/Dashboard">Dashboard</a> |
-    <a href="#/Messages">Messages</a> |
-
-    <div ng-view></div>
+<div id="main" ng-app="dotQueueApp">
+    <header>
+        <h3>DotQueue</h3>
+    </header>
+    <nav>
+        <a href="#/Dashboard">Dashboard</a> |
+        <a href="#/Messages">Messages</a> |
+    </nav>
+    <div ng-view class="row"></div>
 
 </div>
 

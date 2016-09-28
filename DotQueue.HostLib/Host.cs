@@ -41,6 +41,12 @@ namespace DotQueue.HostLib
                 FileSystem = fileSystem
             };
             options.StaticFileOptions.ContentTypeProvider = new CustomContentTypeProvider();
+            options.StaticFileOptions.OnPrepareResponse = context =>
+            {
+                context.OwinContext.Response.Headers.Add("Cache-Control", new[] {"no-cache","no-store","must-revalidate"});
+                context.OwinContext.Response.Headers.Add("Pragma", new[] {"no-cache"});
+                context.OwinContext.Response.Headers.Add("Expire", new[] {"0"});
+            };
             _staticFileHost = WebApp.Start(url, builder => builder.UseFileServer(options));
         }
 
