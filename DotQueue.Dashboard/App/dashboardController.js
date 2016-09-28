@@ -1,8 +1,12 @@
 ﻿angular.module("dotQueueApp").controller("dashboardController", function ($scope) {
     $scope.products = ["Milk", "Bread", "Cheese"];
 
-    $scope.chartData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+    $scope.chartData = getChartData();
+});
+
+function getChartData() {
+    return {
+        labels: ["Jan", "February", "March", "April", "May", "June", "July"],
         datasets: [
             {
                 label: "messages",
@@ -50,8 +54,7 @@
             }
         ]
     };
-
-});
+}
 
 angular.module("dotQueueApp").directive('chartData', function () {
     return {
