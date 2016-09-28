@@ -1,6 +1,4 @@
-DotQueue/bin/*
-DotQueue/obj/*
 packages/*
 .vs/*
-DotQueue.HostLib/bin/*
-DotQueue.HostLib/obj/*
+**/bin/*
+**/obj/*
