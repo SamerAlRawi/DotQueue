@@ -88,7 +88,7 @@ angular.module("dotQueueApp")
         function($http) {
             return {
                 getByHours:function() {
-                    $http.get('/api/Chart/GetByHours')
+                    $http.get('http://localhost:8083/api/Chart/GetByHours')
                         .then(function(data) {
                             console.log(data);
                         });
