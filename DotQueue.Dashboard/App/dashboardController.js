@@ -1,8 +1,4 @@
-﻿angular.module("dotQueueApp").controller("dashboardController", function ($scope) {
-    $scope.products = ["Milk", "Bread", "Cheese"];
-
-    $scope.chartData = setChartData();
-});
+﻿
 
 function setChartData() {
     return {
@@ -85,4 +81,27 @@ angular.module("dotQueueApp").directive('chartData', function () {
 
 angular.module("dotQueueApp").controller("messagesController", function ($scope) {
     $scope.products = ["M1", "M2", "Cheese"];
+});
+
+angular.module("dotQueueApp")
+    .factory('chartDataService',
+        function($http) {
+            return {
+                getByHours:function() {
+                    $http.get('/api/Chart/GetByHours')
+                        .then(function(data) {
+                            console.log(data);
+                        });
+                }
+            }
+        });
+
+angular.module("dotQueueApp").controller("dashboardController", function ($scope, chartDataService) {
+    $scope.products = ["Milk", "Bread", "Cheese"];
+
+    $scope.chartData = setChartData();
+
+    $scope.refresh = function() {
+        chartDataService.getByHours();
+    };
 });
