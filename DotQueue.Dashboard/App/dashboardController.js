@@ -1,8 +1,8 @@
 ﻿
 
-function setChartData() {
+function setChartData(labels, messages, pulls) {
     return {
-        labels: ["Jan", "February", "March", "April", "May", "June", "July"],
+        labels: labels,
         datasets: [
             {
                 label: "messages",
@@ -23,7 +23,7 @@ function setChartData() {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: [65, 59, 80, 81, 56, 55, 40],
+                data: messages,
                 spanGaps: false
             },
             {
@@ -45,7 +45,7 @@ function setChartData() {
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: [62, 60, 77, 79, 55, 55, 38],
+                data: pulls,
                 spanGaps: false
             }
         ]
@@ -57,13 +57,14 @@ angular.module("dotQueueApp").directive('chartData', function () {
         restrict: 'AE',
         replace: true,
         scope: {
-            data: "&"
+            data: "="
         },
-        controller: function ($scope, $element, $attrs, $location) {
+        link: function ($scope, $element, $attrs, $location) {
+            console.log('creating chart');
             var ctx = document.getElementById($attrs.id);
             var myChart = new Chart(ctx, {
                 type: 'line',
-                data: $scope.data(),
+                data: $scope.data,
                 options: {
                     scales: {
                         yAxes: [{
@@ -74,7 +75,7 @@ angular.module("dotQueueApp").directive('chartData', function () {
                     }
                 }
             });
-
+            //$attrs.$observe('chartData',bindChart);
         }
     }
 });
@@ -85,12 +86,13 @@ angular.module("dotQueueApp").controller("messagesController", function ($scope)
 
 angular.module("dotQueueApp")
     .factory('chartDataService',
-        function($http) {
+        function ($http) {
             return {
-                getByHours:function() {
+                getByHours: function (callback) {
                     $http.jsonp('http://localhost:8083/api/Chart/GetByHours?callback=JSON_CALLBACK')
-                        .then(function(data) {
-                            console.log(data);
+                        .then(function (data) {
+                            console.log(data.data);
+                            callback(data.data);
                         });
                 }
             }
@@ -99,9 +101,12 @@ angular.module("dotQueueApp")
 angular.module("dotQueueApp").controller("dashboardController", function ($scope, chartDataService) {
     $scope.products = ["Milk", "Bread", "Cheese"];
 
-    $scope.chartData = setChartData();
+    $scope.chartData = setChartData(['a','b','c'], [1,2,3], [2,3,4]);
 
-    $scope.refresh = function() {
-        chartDataService.getByHours();
+    $scope.refresh = function () {
+        chartDataService.getByHours(function (data) {
+            $scope.chartData = setChartData(data.Labels, data.Messages, data.Pulls);
+            console.log($scope.chartData);
+        });
     };
 });
