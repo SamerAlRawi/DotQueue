@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.SelfHost;
@@ -6,6 +7,7 @@ using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.StaticFiles;
 using Owin;
+using WebApiContrib.Formatting.Jsonp;
 
 namespace DotQueue.HostLib
 {
@@ -59,6 +61,8 @@ namespace DotQueue.HostLib
 
             _configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
 
+            _configuration.Formatters.Insert(0, new JsonpMediaTypeFormatter(new JsonMediaTypeFormatter(), "callback"));
+            
             _httpSelfHostServer = new HttpSelfHostServer(_configuration);
             _httpSelfHostServer.OpenAsync().Wait();
         }

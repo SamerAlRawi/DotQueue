@@ -4,6 +4,7 @@ namespace DotQueue.Api
 {
     public class ChartController : ApiController
     {
+        [HttpGet]
         public ChartInfo GetByHours()
         {
             return new ChartInfo
