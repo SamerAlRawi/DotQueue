@@ -18,14 +18,11 @@ namespace DotQueue.Api
         }
         
         [HttpPost]
-        public string Add([FromBody]string message)
+        public string Add([FromBody]Message message)
         {
             var id = Guid.NewGuid().ToString();
-            _repository.Add(new Message
-            {
-                Id = id,
-                Body = message
-            });
+            message.Id = id;
+            _repository.Add(message);
             return id;
         }
 
