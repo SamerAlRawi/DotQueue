@@ -116,14 +116,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChartController.cs" />
-    <Compile Include="ChartInfo.cs" />
-    <Compile Include="MainController.cs" />
-    <Compile Include="Message.cs" />
+    <Compile Include="QueueController.cs" />
+    <Compile Include="PingController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotQueue.Domain\DotQueue.Domain.csproj">
+      <Project>{f88643b8-1711-4cc1-a532-a51e28fa5343}</Project>
+      <Name>DotQueue.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotQueue.Repository\DotQueue.Repository.csproj">
+      <Project>{e1e3e63d-5c5f-4eb9-bbff-20470a418c87}</Project>
+      <Name>DotQueue.Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

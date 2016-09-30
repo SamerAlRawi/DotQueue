@@ -13,7 +13,7 @@ namespace DotQueue.HostLib
 
         public ICollection<Assembly> GetAssemblies()
         {
-            return new List<Assembly>() {typeof(MainController).Assembly};
+            return new List<Assembly>() {typeof(QueueController).Assembly};
         }
     }
 }

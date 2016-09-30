@@ -3,6 +3,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.SelfHost;
+using DotQueue.Ioc;
 using Microsoft.Owin.FileSystems;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.StaticFiles;
@@ -31,7 +32,7 @@ namespace DotQueue.HostLib
         public void Start()
         {
             StartApiHost();
-            StartFileHost();
+            //StartFileHost();
         }
 
         private void StartFileHost()
@@ -60,7 +61,7 @@ namespace DotQueue.HostLib
                 new { id = RouteParameter.Optional });
 
             _configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
-
+            _configuration.DependencyResolver = ContainerBuilder.GetContainer();
             _configuration.Formatters.Insert(0, new JsonpMediaTypeFormatter(new JsonMediaTypeFormatter(), "callback"));
             
             _httpSelfHostServer = new HttpSelfHostServer(_configuration);
@@ -71,7 +72,7 @@ namespace DotQueue.HostLib
         {
             _httpSelfHostServer.CloseAsync();
             _httpSelfHostServer.Dispose();
-            _staticFileHost.Dispose();
+            //_staticFileHost.Dispose();
         }
     }
 }
