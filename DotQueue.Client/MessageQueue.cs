@@ -42,7 +42,7 @@ namespace DotQueue.Client
 
         private HttpWebRequest BuildPullHttpRequest()
         {
-            var request = WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?Name={_type}") as HttpWebRequest;
+            var request = WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?category={_type}") as HttpWebRequest;
             return request;
         }
 

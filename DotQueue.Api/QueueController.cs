@@ -27,15 +27,10 @@ namespace DotQueue.Api
         }
 
         [HttpGet]
-        public Message Pull([FromUri]Category category)
+        public Message Pull([FromUri]string category)
         {
             return _repository.Pull();
         }
-    }
-
-    public class Category
-    {
-        public string Name { get; set; }
     }
 }
 
