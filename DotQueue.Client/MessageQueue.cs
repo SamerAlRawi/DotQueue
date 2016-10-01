@@ -34,17 +34,20 @@ namespace DotQueue.Client
             request.Accept = "application/json";
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             request.ContentLength = byteArray.Length;
-            Stream dataStream = request.GetRequestStream();
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            dataStream.Close();
-            WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            var responseFromServer = reader.ReadToEnd();
-            reader.Close();
-            dataStream.Close();
-            response.Close();
+            var responseFromServer = "";
+
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+            using (WebResponse response = request.GetResponse())
+            {
+                using (Stream stream = response.GetResponseStream())
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    responseFromServer = reader.ReadToEnd();
+                }
+            }
             return responseFromServer;
         }
 
