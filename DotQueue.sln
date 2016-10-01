@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Repository", "DotQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Domain", "DotQueue.Domain\DotQueue.Domain.csproj", "{F88643B8-1711-4CC1-A532-A51E28FA5343}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Client", "DotQueue.Client\DotQueue.Client.csproj", "{6D942D00-FA78-42FA-9416-027B1D1D2EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Client.DemoConsole", "DotQueue.Client.DemoConsole\DotQueue.Client.DemoConsole.csproj", "{F3E2C617-BC11-4354-B29E-864EB2D8E745}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{F88643B8-1711-4CC1-A532-A51E28FA5343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F88643B8-1711-4CC1-A532-A51E28FA5343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F88643B8-1711-4CC1-A532-A51E28FA5343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D942D00-FA78-42FA-9416-027B1D1D2EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D942D00-FA78-42FA-9416-027B1D1D2EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D942D00-FA78-42FA-9416-027B1D1D2EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D942D00-FA78-42FA-9416-027B1D1D2EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E2C617-BC11-4354-B29E-864EB2D8E745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E2C617-BC11-4354-B29E-864EB2D8E745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E2C617-BC11-4354-B29E-864EB2D8E745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E2C617-BC11-4354-B29E-864EB2D8E745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
