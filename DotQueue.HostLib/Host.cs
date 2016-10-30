@@ -4,10 +4,6 @@ using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.SelfHost;
 using DotQueue.Ioc;
-using Microsoft.Owin.FileSystems;
-using Microsoft.Owin.Hosting;
-using Microsoft.Owin.StaticFiles;
-using Owin;
 using WebApiContrib.Formatting.Jsonp;
 
 namespace DotQueue.HostLib
