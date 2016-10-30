@@ -1,5 +1,5 @@
-﻿using Topshelf;
-using Host = DotQueue.HostLib.Host;
+﻿using DotQueue.HostLib;
+using Topshelf;
 
 namespace DotQueue
 {
@@ -11,15 +11,15 @@ namespace DotQueue
         {
             HostFactory.Run(x =>
             {
-                x.Service<Host>(s =>
+                x.Service<QueueHost>(s =>
                 {
-                    s.ConstructUsing(factory => new Host(_apiPort));
+                    s.ConstructUsing(factory => new QueueHost(_apiPort));
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });
                 x.RunAsLocalSystem();
 
-                x.SetDescription("DotQueue Host");
+                x.SetDescription("DotQueue QueueHost");
                 x.SetDisplayName("DotQueue");
                 x.SetServiceName("DotQueue");
             });

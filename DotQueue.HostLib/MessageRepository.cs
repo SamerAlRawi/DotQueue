@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using DotQueue.Domain;
 
-namespace DotQueue.Repository
+namespace DotQueue.HostLib
 {
     public class MessageRepository : IMessageRepository
     {
@@ -29,6 +28,15 @@ namespace DotQueue.Repository
                 _dictionary[messageType].TryDequeue(out message);
             }
             return message;
+        }
+
+        public int Count(string messageType)
+        {
+            if (_dictionary.ContainsKey(messageType))
+            {
+                return _dictionary[messageType].Count;
+            }
+            return 0;
         }
     }
 }

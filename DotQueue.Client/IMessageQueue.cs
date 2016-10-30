@@ -4,5 +4,6 @@
     {
         string Add(T message);
         T Pull();
+        int Count();
     }
 }

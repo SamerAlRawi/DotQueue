@@ -23,6 +23,7 @@ namespace DotQueue.Client.DemoConsole
                     var messageId = queue.Add(new Subscriber());
                     Console.WriteLine(messageId);
                     Thread.Sleep(100);
+                    Console.WriteLine($"Coount: {queue.Count()}");
                     Console.WriteLine(queue.Pull());
                 }
             };

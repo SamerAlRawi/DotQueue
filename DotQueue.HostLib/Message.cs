@@ -1,4 +1,4 @@
-﻿namespace DotQueue.Domain
+﻿namespace DotQueue.HostLib
 {
     public class Message
     {

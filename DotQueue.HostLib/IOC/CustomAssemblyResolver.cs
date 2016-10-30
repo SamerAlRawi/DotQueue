@@ -1,9 +1,8 @@
-﻿using DotQueue.Api;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Web.Http.Dispatcher;
 
-namespace DotQueue.HostLib
+namespace DotQueue.HostLib.IOC
 {
     public class CustomAssemblyResolver : IAssembliesResolver
     {

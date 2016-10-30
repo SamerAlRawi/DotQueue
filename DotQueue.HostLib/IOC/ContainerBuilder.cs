@@ -1,9 +1,8 @@
 ﻿using System.Web.Http.Dependencies;
-using DotQueue.Repository;
 using Microsoft.Practices.Unity;
 using Unity.WebApi;
 
-namespace DotQueue.Ioc
+namespace DotQueue.HostLib.IOC
 {
     public static class ContainerBuilder
     {

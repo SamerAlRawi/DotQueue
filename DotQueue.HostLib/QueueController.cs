@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Web.Http;
-using DotQueue.Domain;
-using DotQueue.Repository;
 
-namespace DotQueue.Api
+namespace DotQueue.HostLib
 {
     public class QueueController : ApiController
     {
@@ -27,6 +25,18 @@ namespace DotQueue.Api
         public Message Pull([FromUri]string category)
         {
             return _repository.Pull(category);
+        }
+
+        [HttpGet]
+        public int Count([FromUri]string category)
+        {
+            return _repository.Count(category);
+        }
+
+        [HttpGet]
+        public string AreYouAlive()
+        {
+            return "OK";
         }
     }
 }

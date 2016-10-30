@@ -39,9 +39,24 @@ namespace DotQueue.Client
             return JsonConvert.DeserializeObject<T>(json);
         }
 
+        public int Count()
+        {
+            var request = BuildCountHttpRequest();
+            SetHeaders(request, WebRequestMethods.Http.Get);
+            var json = GetResponseFromServer(request);
+            return int.Parse(json);
+        }
+
         private HttpWebRequest BuildPullHttpRequest()
         {
             var request = WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?category={_type}") as HttpWebRequest;
+            return request;
+        }
+
+        private HttpWebRequest BuildCountHttpRequest()
+        {
+            var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Queue/Count?category={_type}";
+            var request = WebRequest.Create(requestUriString) as HttpWebRequest;
             return request;
         }
 
