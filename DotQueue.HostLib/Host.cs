@@ -32,28 +32,8 @@ namespace DotQueue.HostLib
         public void Start()
         {
             StartApiHost();
-            //StartFileHost();
         }
-
-        private void StartFileHost()
-        {
-            var url = $"http://*:{_parameters.DashboardPort}/";
-            var fileSystem = new PhysicalFileSystem("");
-            var options = new FileServerOptions
-            {
-                EnableDirectoryBrowsing = true,
-                FileSystem = fileSystem
-            };
-            options.StaticFileOptions.ContentTypeProvider = new CustomContentTypeProvider();
-            options.StaticFileOptions.OnPrepareResponse = context =>
-            {
-                context.OwinContext.Response.Headers.Add("Cache-Control", new[] {"no-cache","no-store","must-revalidate"});
-                context.OwinContext.Response.Headers.Add("Pragma", new[] {"no-cache"});
-                context.OwinContext.Response.Headers.Add("Expire", new[] {"0"});
-            };
-            _staticFileHost = WebApp.Start(url, builder => builder.UseFileServer(options));
-        }
-
+        
         private void StartApiHost()
         {
             HttpSelfHostConfiguration _configuration = new HttpSelfHostConfiguration($"http://0.0.0.0:{_parameters.ApiPort}");
@@ -72,7 +52,6 @@ namespace DotQueue.HostLib
         {
             _httpSelfHostServer.CloseAsync();
             _httpSelfHostServer.Dispose();
-            //_staticFileHost.Dispose();
         }
     }
 }
