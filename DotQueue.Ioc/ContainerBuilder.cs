@@ -13,8 +13,6 @@ namespace DotQueue.Ioc
             container.RegisterType<IMessageRepository, MessageRepository>(new ContainerControlledLifetimeManager());
             return new UnityDependencyResolver(container);
         }
-
-
     }
 
 }

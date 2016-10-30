@@ -12,12 +12,6 @@ using WebApiContrib.Formatting.Jsonp;
 
 namespace DotQueue.HostLib
 {
-    public class HostParameters
-    {
-        public long ApiPort { get; set; }
-        public long DashboardPort { get; set; }
-    }
-
     public class Host
     {
         private HttpSelfHostServer _httpSelfHostServer;

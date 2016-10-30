@@ -91,6 +91,7 @@
     <Compile Include="CustomAssemblyResolver.cs" />
     <Compile Include="CustomContentTypeProvider.cs" />
     <Compile Include="Host.cs" />
+    <Compile Include="HostParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
