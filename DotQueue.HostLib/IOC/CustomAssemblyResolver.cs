@@ -6,10 +6,6 @@ namespace DotQueue.HostLib.IOC
 {
     public class CustomAssemblyResolver : IAssembliesResolver
     {
-        public CustomAssemblyResolver()
-        {
-        }
-
         public ICollection<Assembly> GetAssemblies()
         {
             return new List<Assembly>() {typeof(QueueController).Assembly};
