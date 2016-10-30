@@ -7,7 +7,6 @@ namespace DotQueue
     class Program
     {
         private static int _apiPort = 8083;
-        private static int _dashboardPort = 8082;
 
         static void Main(string[] args)
         {
@@ -15,11 +14,7 @@ namespace DotQueue
             {
                 x.Service<Host>(s =>
                 {
-                    s.ConstructUsing(name =>
-                    {
-                        var hostParameters = new HostParameters { ApiPort = _apiPort, DashboardPort = _dashboardPort };
-                        return new Host(hostParameters);
-                    });
+                    s.ConstructUsing(factory => new Host(_apiPort));
                     s.WhenStarted(tc => tc.Start());
                     s.WhenStopped(tc => tc.Stop());
                 });

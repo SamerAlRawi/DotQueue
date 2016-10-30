@@ -12,11 +12,11 @@ namespace DotQueue.HostLib
     {
         private HttpSelfHostServer _httpSelfHostServer;
         private IDisposable _staticFileHost;
-        private HostParameters _parameters;
+        private int _port;
 
-        public Host(HostParameters parameters)
+        public Host(int port)
         {
-            _parameters = parameters;
+            _port = port;
         }
 
         public void Start()
@@ -26,7 +26,7 @@ namespace DotQueue.HostLib
         
         private void StartApiHost()
         {
-            HttpSelfHostConfiguration _configuration = new HttpSelfHostConfiguration($"http://0.0.0.0:{_parameters.ApiPort}");
+            HttpSelfHostConfiguration _configuration = new HttpSelfHostConfiguration($"http://0.0.0.0:{_port}");
             _configuration.Routes.MapHttpRoute("ApiDefault", "api/{controller}/{method}/{id}",
                 new { id = RouteParameter.Optional });
 
