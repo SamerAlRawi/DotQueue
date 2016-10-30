@@ -1,5 +1,4 @@
-﻿using DotQueue.HostLib;
-using Topshelf;
+﻿using Topshelf;
 using Host = DotQueue.HostLib.Host;
 
 namespace DotQueue
