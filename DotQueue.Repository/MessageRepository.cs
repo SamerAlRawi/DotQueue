@@ -5,17 +5,29 @@ namespace DotQueue.Repository
 {
     public class MessageRepository : IMessageRepository
     {
-        ConcurrentQueue<Message> _messages = new ConcurrentQueue<Message>();
-
+        ConcurrentDictionary<string, ConcurrentQueue<Message>> _dictionary = new ConcurrentDictionary<string, ConcurrentQueue<Message>>();
+        
         public void Add(Message message)
         {
-            _messages.Enqueue(message);
+            CheckAndAddCitonary(message.Type);
+            _dictionary[message.Type].Enqueue(message);
         }
 
-        public Message Pull()
+        private void CheckAndAddCitonary(string messageType)
+        {
+            if (!_dictionary.ContainsKey(messageType))
+            {
+                _dictionary.TryAdd(messageType, new ConcurrentQueue<Message>());
+            }
+        }
+
+        public Message Pull(string messageType)
         {
             Message message = null;
-            _messages.TryDequeue(out message);
+            if (_dictionary.ContainsKey(messageType))
+            {
+                _dictionary[messageType].TryDequeue(out message);
+            }
             return message;
         }
     }
