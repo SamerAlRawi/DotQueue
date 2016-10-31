@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DotQueue.Client</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Samer Al-Rawi</authors>
     <projectUrl>https://github.com/SamerAlRawi/DotQueue</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,7 +11,7 @@
     <copyright>Copyright Samer Al-Rawi</copyright>
     <language>en-US</language>
     <dependencies>
-		<dependency id="Newtonsoft.Json" version="6.0.4" />
+		<dependency id="Newtonsoft.Json" version="9.0.1" />
     </dependencies>
   </metadata>
   <files>
