@@ -20,7 +20,7 @@ namespace DotQueue.Client.DemoConsole
             {
                 while (true)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(750);
                     var messageId = queue.Add(new Subscriber());
                     Console.WriteLine(messageId);
                 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 
 namespace DotQueue.Client
@@ -108,6 +109,10 @@ namespace DotQueue.Client
                 if (Count() > 0)
                 {
                     yield return Pull();
+                }
+                else
+                {
+                    Thread.Sleep(2000);//Threshold if the queue is empty
                 }
             }
         }
