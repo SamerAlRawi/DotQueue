@@ -1,6 +1,5 @@
 ﻿using System.Web.Http.Dependencies;
 using Microsoft.Practices.Unity;
-using Unity.WebApi;
 
 namespace DotQueue.HostLib.IOC
 {
@@ -10,8 +9,9 @@ namespace DotQueue.HostLib.IOC
         {
             var container = new UnityContainer();
             container.RegisterType<IMessageRepository, MessageRepository>(new ContainerControlledLifetimeManager());
-            return new UnityDependencyResolver(container);
+            container.RegisterType<QueueController>(
+                new InjectionFactory(_ => new QueueController(_.Resolve<IMessageRepository>())));
+            return new DotQueueIoCContainer(container);
         }
     }
-
 }
