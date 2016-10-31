@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace DotQueue.Client.DemoConsole
 {
@@ -23,7 +21,7 @@ namespace DotQueue.Client.DemoConsole
                     var messageId = queue.Add(new Subscriber());
                     Console.WriteLine(messageId);
                     Thread.Sleep(100);
-                    Console.WriteLine($"Coount: {queue.Count()}");
+                    Console.WriteLine($"Count: {queue.Count()}");
                     Console.WriteLine(queue.Pull());
                 }
             };

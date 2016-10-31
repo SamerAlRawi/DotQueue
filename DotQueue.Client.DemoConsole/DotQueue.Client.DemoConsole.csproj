@@ -45,6 +45,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotQueue.Client\DotQueue.Client.csproj">
+      <Project>{6d942d00-fa78-42fa-9416-027b1d1d2eee}</Project>
+      <Name>DotQueue.Client</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
