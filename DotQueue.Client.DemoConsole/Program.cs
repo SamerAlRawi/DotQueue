@@ -14,9 +14,8 @@ namespace DotQueue.Client.DemoConsole
                 IpAddress = IPAddress.Parse("127.0.0.1"),
                 Port = 8083
             });
-            Action a = () =>
-            {
-                while (true)
+            
+            while (true)
                 {
                     var messageId = queue.Add(new Subscriber());
                     Console.WriteLine(messageId);
@@ -24,15 +23,6 @@ namespace DotQueue.Client.DemoConsole
                     Console.WriteLine($"Count: {queue.Count()}");
                     Console.WriteLine(queue.Pull());
                 }
-            };
-            a();
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    Thread t1 = new Thread(new ThreadStart(a));
-            //    t1.Start();
-            //}
-            Console.Read();
         }
     }
 
