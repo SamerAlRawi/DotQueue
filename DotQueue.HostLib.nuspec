@@ -19,7 +19,6 @@
 		<dependency id="Microsoft.Owin" version="3.0.1" />
 		<dependency id="Microsoft.Owin.Host.HttpListener" version="2.0.2" />
 		<dependency id="Microsoft.Owin.Hosting" version="2.0.2" />
-		<dependency id="Newtonsoft.Json" version="6.0.4" />
 		<dependency id="Owin" version="1.0" />
 		<dependency id="WebApiContrib.Formatting.Jsonp" version="3.0.2" />
 		<dependency id="CommonServiceLocator" version="1.3" />
