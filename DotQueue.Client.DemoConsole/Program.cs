@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace DotQueue.Client.DemoConsole
 {
@@ -14,15 +15,21 @@ namespace DotQueue.Client.DemoConsole
                 IpAddress = IPAddress.Parse("127.0.0.1"),
                 Port = 8083
             });
-            
-            while (true)
+
+            Task.Run(() =>
+            {
+                while (true)
                 {
+                    Thread.Sleep(1000);
                     var messageId = queue.Add(new Subscriber());
                     Console.WriteLine(messageId);
-                    Thread.Sleep(100);
-                    Console.WriteLine($"Count: {queue.Count()}");
-                    Console.WriteLine(queue.Pull());
                 }
+            });
+
+            foreach (var subscriber in queue)
+            {
+                Console.WriteLine(subscriber.Email);
+            }
         }
     }
 

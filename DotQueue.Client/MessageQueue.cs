@@ -1,16 +1,12 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 
 namespace DotQueue.Client
 {
-    public class DotQueueAddress
-    {
-        public IPAddress IpAddress { get; set; }
-        public int Port { get; set; }
-    }
-
     public class MessageQueue<T> : IMessageQueue<T>
     {
         private DotQueueAddress _address;
@@ -103,6 +99,22 @@ namespace DotQueue.Client
             request.Method = method;
             request.ContentType = "application/json";
             request.Accept = "application/json";
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            while (true)
+            {
+                if (Count() > 0)
+                {
+                    yield return Pull();
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
