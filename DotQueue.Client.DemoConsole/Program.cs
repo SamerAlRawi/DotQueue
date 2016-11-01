@@ -15,17 +15,16 @@ namespace DotQueue.Client.DemoConsole
                 IpAddress = IPAddress.Parse("127.0.0.1"),
                 Port = 8083
             });
-
             Task.Run(() =>
             {
                 while (true)
                 {
-                    Thread.Sleep(750);
+                    Thread.Sleep(500);
                     var messageId = queue.Add(new Subscriber());
                     Console.WriteLine(messageId);
                 }
             });
-
+            Thread.Sleep(1000);//wait for the subscription
             foreach (var subscriber in queue)
             {
                 Console.WriteLine(subscriber.Email);

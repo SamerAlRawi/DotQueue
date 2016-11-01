@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading;
 using Newtonsoft.Json;
 
 namespace DotQueue.Client
@@ -53,6 +52,13 @@ namespace DotQueue.Client
         private HttpWebRequest BuildCountHttpRequest()
         {
             var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Queue/Count?category={_type}";
+            var request = WebRequest.Create(requestUriString) as HttpWebRequest;
+            return request;
+        }
+
+        private HttpWebRequest BuildSubscribeHttpRequest(int port)
+        {
+            var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Subscribe/Subscribe?category={_type}&port={port}";
             var request = WebRequest.Create(requestUriString) as HttpWebRequest;
             return request;
         }
@@ -112,14 +118,39 @@ namespace DotQueue.Client
                 }
                 else
                 {
-                    Thread.Sleep(2000);//Threshold if the queue is empty
+                    WaitForNewMessage();
                 }
             }
         }
-
+        
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void WaitForNewMessage()
+        {
+            var localPort = 8082;
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add($"http://*:{localPort}/");
+            listener.Start();
+            SubscribeToQueue(localPort);
+            HttpListenerContext context = listener.GetContext();
+            HttpListenerResponse response = context.Response;
+            string responseString = "OK";
+            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+            response.ContentLength64 = buffer.Length;
+            Stream output = response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
+            output.Close();
+            listener.Stop();
+        }
+
+        private void SubscribeToQueue(int localPort)
+        {
+            var request = BuildSubscribeHttpRequest(localPort);
+            request.Method = WebRequestMethods.Http.Get;
+            request.GetResponse();
         }
     }
 }

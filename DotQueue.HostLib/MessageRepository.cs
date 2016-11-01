@@ -1,17 +1,23 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 
 namespace DotQueue.HostLib
 {
     public class MessageRepository : IMessageRepository
     {
         ConcurrentDictionary<string, ConcurrentQueue<Message>> _dictionary = new ConcurrentDictionary<string, ConcurrentQueue<Message>>();
-        
+        public event EventHandler<string> NewMessage;
+
         public void Add(Message message)
         {
             CheckAndAddCitonary(message.Type);
             _dictionary[message.Type].Enqueue(message);
+            if (NewMessage != null)
+            {
+                NewMessage(this, message.Type);
+            }
         }
-
+        
         private void CheckAndAddCitonary(string messageType)
         {
             if (!_dictionary.ContainsKey(messageType))

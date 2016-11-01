@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace DotQueue.HostLib
@@ -17,7 +18,7 @@ namespace DotQueue.HostLib
         {
             var id = Guid.NewGuid().ToString();
             message.Id = id;
-            _repository.Add(message);
+            Task.Run(() => _repository.Add(message));
             return id;
         }
 

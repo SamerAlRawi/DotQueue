@@ -1,4 +1,5 @@
-﻿using DotQueue.HostLib;
+﻿using System;
+using DotQueue.HostLib;
 using Topshelf;
 
 namespace DotQueue
@@ -23,6 +24,7 @@ namespace DotQueue
                 x.SetDisplayName("DotQueue");
                 x.SetServiceName("DotQueue");
             });
+            Console.Read();
         }
     }
 }
