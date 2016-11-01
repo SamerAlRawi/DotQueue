@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -9,11 +8,10 @@ using Newtonsoft.Json;
 
 namespace DotQueue.Client
 {
-    public class MessageQueue<T> : IMessageQueue<T>, IDisposable
+    public class MessageQueue<T> : IMessageQueue<T>
     {
         private DotQueueAddress _address;
         private string _type;
-        private bool _inProgress = true;
 
         public MessageQueue(DotQueueAddress address)
         {
@@ -106,7 +104,7 @@ namespace DotQueue.Client
 
         public IEnumerator<T> GetEnumerator()
         {
-            while (_inProgress)
+            while (true)
             {
                 if (Count() > 0)
                 {
@@ -122,11 +120,6 @@ namespace DotQueue.Client
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public void Dispose()
-        {
-            _inProgress = false;
         }
     }
 }
