@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 
 namespace DotQueue.Client
@@ -11,11 +13,13 @@ namespace DotQueue.Client
     {
         private DotQueueAddress _address;
         private string _type;
+        private int _localPort = 8082;
 
         public MessageQueue(DotQueueAddress address)
         {
             _address = address;
             _type = typeof(T).Name;
+            SubscribeToQueue(_localPort);
         }
 
         public string Add(T message)
@@ -45,7 +49,9 @@ namespace DotQueue.Client
 
         private HttpWebRequest BuildPullHttpRequest()
         {
-            var request = WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?category={_type}") as HttpWebRequest;
+            var request =
+                WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?category={_type}") as
+                    HttpWebRequest;
             return request;
         }
 
@@ -58,21 +64,23 @@ namespace DotQueue.Client
 
         private HttpWebRequest BuildSubscribeHttpRequest(int port)
         {
-            var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Subscribe/Subscribe?category={_type}&port={port}";
+            var requestUriString =
+                $"http://{_address.IpAddress}:{_address.Port}/api/Subscribe/Subscribe?category={_type}&port={port}";
             var request = WebRequest.Create(requestUriString) as HttpWebRequest;
             return request;
         }
 
         private HttpWebRequest BuildAddHttpRequest()
         {
-            var request = WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Add") as HttpWebRequest;
+            var request =
+                WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Add") as HttpWebRequest;
             return request;
         }
 
         private string BuildMessage(T message)
         {
             var msg = JsonConvert.SerializeObject(message);
-            var wrapper = new Message { Type = _type, Body = msg };
+            var wrapper = new Message {Type = _type, Body = msg};
             var postData = JsonConvert.SerializeObject(wrapper);
             return postData;
         }
@@ -122,7 +130,7 @@ namespace DotQueue.Client
                 }
             }
         }
-        
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -130,20 +138,25 @@ namespace DotQueue.Client
 
         private void WaitForNewMessage()
         {
-            var localPort = 8082;
-            HttpListener listener = new HttpListener();
-            listener.Prefixes.Add($"http://*:{localPort}/");
-            listener.Start();
-            SubscribeToQueue(localPort);
-            HttpListenerContext context = listener.GetContext();
-            HttpListenerResponse response = context.Response;
-            string responseString = "OK";
-            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-            output.Close();
-            listener.Stop();
+            try
+            {
+                HttpListener listener = new HttpListener();
+                listener.Prefixes.Add($"http://*:{_localPort}/");
+                listener.Start();
+                HttpListenerContext context = listener.GetContext();
+                HttpListenerResponse response = context.Response;
+                string responseString = "OK";
+                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                response.ContentLength64 = buffer.Length;
+                Stream output = response.OutputStream;
+                output.Write(buffer, 0, buffer.Length);
+                output.Close();
+                listener.Stop();
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         private void SubscribeToQueue(int localPort)
