@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientAddress.cs" />
     <Compile Include="IOC\ContainerBuilder.cs" />
     <Compile Include="IOC\CustomAssemblyResolver.cs" />
     <Compile Include="IOC\DotQueueIoCContainer.cs" />

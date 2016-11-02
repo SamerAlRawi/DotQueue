@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace DotQueue.Client
@@ -14,12 +15,58 @@ namespace DotQueue.Client
         private DotQueueAddress _address;
         private string _type;
         private int _localPort = 8082;
+        private bool _messageFound = false;
+        private bool _subscribed = false;
 
         public MessageQueue(DotQueueAddress address)
         {
             _address = address;
             _type = typeof(T).Name;
-            SubscribeToQueue(_localPort);
+            
+            Task.Run(() => StartListener());
+            Task.Run(() => SubscribeToQueue(_localPort));
+        }
+
+        private void StartListener()
+        {
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add($"http://*:{_localPort}/");
+            listener.Start();
+            while (true)
+                try
+                {
+                    {
+                        HttpListenerContext context = listener.GetContext();
+                        HttpListenerRequest request = context.Request;
+                        ProcessRequest(request.Url.LocalPath);
+                        HttpListenerResponse response = context.Response;
+                        string responseString = "OK";
+                        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                        response.ContentLength64 = buffer.Length;
+                        Stream output = response.OutputStream;
+                        output.Write(buffer, 0, buffer.Length);
+                        output.Close();
+                    }
+
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(1000);
+                }
+            listener.Stop();
+        }
+
+        private void ProcessRequest(string message)
+        {
+            if (message.Contains("subscribtion_added"))
+            {
+                _subscribed = true;
+            }
+            if (message.Contains("new_message"))
+            {
+                _messageFound = true;
+            }
+
         }
 
         public string Add(T message)
@@ -80,7 +127,7 @@ namespace DotQueue.Client
         private string BuildMessage(T message)
         {
             var msg = JsonConvert.SerializeObject(message);
-            var wrapper = new Message {Type = _type, Body = msg};
+            var wrapper = new Message { Type = _type, Body = msg };
             var postData = JsonConvert.SerializeObject(wrapper);
             return postData;
         }
@@ -126,6 +173,7 @@ namespace DotQueue.Client
                 }
                 else
                 {
+                    _messageFound = false;
                     WaitForNewMessage();
                 }
             }
@@ -138,24 +186,9 @@ namespace DotQueue.Client
 
         private void WaitForNewMessage()
         {
-            try
+            while (!_messageFound)
             {
-                HttpListener listener = new HttpListener();
-                listener.Prefixes.Add($"http://*:{_localPort}/");
-                listener.Start();
-                HttpListenerContext context = listener.GetContext();
-                HttpListenerResponse response = context.Response;
-                string responseString = "OK";
-                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-                response.ContentLength64 = buffer.Length;
-                Stream output = response.OutputStream;
-                output.Write(buffer, 0, buffer.Length);
-                output.Close();
-                listener.Stop();
-            }
-            catch (Exception)
-            {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace DotQueue.HostLib
 {
@@ -20,15 +21,15 @@ namespace DotQueue.HostLib
         {
             foreach (var client in _clients.Where(c => c.Category == category))
             {
-                Notify(client);
+                Notify(client, "new_message");
             }
         }
 
-        private void Notify(ClientAddress client)
+        private void Notify(ClientAddress client, string message)
         {
             try
             {
-                var request = WebRequest.Create($"http://{client.IpAddress}:{client.Port}");
+                var request = WebRequest.Create($"http://{client.IpAddress}:{client.Port}/{message}");
                 request.Method = WebRequestMethods.Http.Get;
                 request.GetResponse();
             }
@@ -40,14 +41,9 @@ namespace DotQueue.HostLib
 
         public void Subscribe(string clientAddress, int port, string category)
         {
-            _clients.Add(new ClientAddress { Category = category, Port = port, IpAddress = clientAddress });
+            var address = new ClientAddress { Category = category, Port = port, IpAddress = clientAddress };
+            _clients.Add(address);
+            Task.Run(() => Notify(address, "subscribtion_added"));
         }
-    }
-
-    class ClientAddress
-    {
-        public string IpAddress { get; set; }
-        public int Port { get; set; }
-        public string Category { get; set; }
     }
 }
