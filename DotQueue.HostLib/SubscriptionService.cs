@@ -21,7 +21,11 @@ namespace DotQueue.HostLib
         {
             foreach (var client in _clients.Where(c => c.Category == category))
             {
-                Notify(client, "new_message");
+                if (client.LastNotified < DateTime.Now.Subtract(TimeSpan.FromMinutes(1)) || _messageRepository.Count(category) == 1)
+                {
+                    client.LastNotified = DateTime.Now;
+                    Notify(client, "new_message");
+                }
             }
         }
 

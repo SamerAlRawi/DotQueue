@@ -19,9 +19,9 @@ namespace DotQueue.Client.DemoConsole
             {
                 while (true)
                 {
-                    Thread.Sleep(500);
                     var messageId = queue.Add(new Subscriber());
-                    Console.WriteLine(messageId);
+                    Thread.Sleep(500);
+                    //Console.WriteLine(messageId);
                 }
             });
             Thread.Sleep(1000);//wait for the subscription
