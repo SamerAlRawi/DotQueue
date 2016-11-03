@@ -2,7 +2,7 @@
 
 namespace DotQueue.HostLib
 {
-    public class ClientAddress
+    public class Subscriber
     {
         public string IpAddress { get; set; }
         public int Port { get; set; }
@@ -11,12 +11,12 @@ namespace DotQueue.HostLib
 
         public override bool Equals(object obj)
         {
-            if (obj is ClientAddress)
+            if (obj is Subscriber)
             {
-                var address = obj as ClientAddress;
-                return address.IpAddress == IpAddress &&
-                       address.Category == Category &&
-                       address.Port == Port;
+                var subscriber = obj as Subscriber;
+                return subscriber.IpAddress == IpAddress &&
+                       subscriber.Category == Category &&
+                       subscriber.Port == Port;
             }
             return false;
         }

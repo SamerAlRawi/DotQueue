@@ -9,7 +9,7 @@ namespace DotQueue.HostLib
     public class SubscriptionService : ISubscriptionService
     {
         private IMessageRepository _messageRepository;
-        private ConcurrentBag<ClientAddress> _clients = new ConcurrentBag<ClientAddress>();
+        private ConcurrentBag<Subscriber> _subscribers = new ConcurrentBag<Subscriber>();
 
         public SubscriptionService(IMessageRepository messageRepository)
         {
@@ -19,7 +19,7 @@ namespace DotQueue.HostLib
 
         private void TellSubscribers(object sender, string category)
         {
-            foreach (var client in _clients.Where(c => c.Category == category))
+            foreach (var client in _subscribers.Where(c => c.Category == category))
             {
                 if (client.LastNotified < DateTime.Now.Subtract(TimeSpan.FromMinutes(1)) || _messageRepository.Count(category) == 1)
                 {
@@ -29,7 +29,7 @@ namespace DotQueue.HostLib
             }
         }
 
-        private void Notify(ClientAddress client, string message)
+        private void Notify(Subscriber client, string message)
         {
             try
             {
@@ -45,10 +45,10 @@ namespace DotQueue.HostLib
 
         public void Subscribe(string clientAddress, int port, string category)
         {
-            var address = new ClientAddress { Category = category, Port = port, IpAddress = clientAddress };
-            if (!_clients.Contains(address))
+            var address = new Subscriber { Category = category, Port = port, IpAddress = clientAddress };
+            if (!_subscribers.Contains(address))
             {
-                _clients.Add(address);
+                _subscribers.Add(address);
             }
             Task.Run(() => Notify(address, "subscribtion_added"));
         }
