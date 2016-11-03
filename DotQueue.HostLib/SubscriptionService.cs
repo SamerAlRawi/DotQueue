@@ -42,7 +42,10 @@ namespace DotQueue.HostLib
         public void Subscribe(string clientAddress, int port, string category)
         {
             var address = new ClientAddress { Category = category, Port = port, IpAddress = clientAddress };
-            _clients.Add(address);
+            if (!_clients.Contains(address))
+            {
+                _clients.Add(address);
+            }
             Task.Run(() => Notify(address, "subscribtion_added"));
         }
     }

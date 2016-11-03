@@ -17,14 +17,28 @@ namespace DotQueue.Client
         private int _localPort = 8082;
         private bool _messageFound = false;
         private bool _subscribed = false;
+        private DateTime _subscriptionConfirmedAt = DateTime.MinValue;
 
         public MessageQueue(DotQueueAddress address)
         {
             _address = address;
             _type = typeof(T).Name;
-            
+
             Task.Run(() => StartListener());
             Task.Run(() => SubscribeToQueue(_localPort));
+            Task.Run(() => ReSubscribe());
+        }
+
+        private Action ReSubscribe()
+        {
+            while (true)
+            {
+                Thread.Sleep(5000);
+                if (_subscriptionConfirmedAt < DateTime.Now.Subtract(TimeSpan.FromSeconds(60)))
+                {
+                    SubscribeToQueue(_localPort);
+                }
+            }
         }
 
         private void StartListener()
@@ -58,9 +72,11 @@ namespace DotQueue.Client
 
         private void ProcessRequest(string message)
         {
+            Console.WriteLine($"Message received: {message}");
             if (message.Contains("subscribtion_added"))
             {
                 _subscribed = true;
+                _subscriptionConfirmedAt = DateTime.Now;
             }
             if (message.Contains("new_message"))
             {
