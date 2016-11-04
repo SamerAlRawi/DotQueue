@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotQueueAddress.cs" />
+    <Compile Include="IHttpAdapter.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="IMessageQueue.cs" />
     <Compile Include="MessageQueue.cs" />
