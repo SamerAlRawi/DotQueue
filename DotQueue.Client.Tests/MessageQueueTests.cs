@@ -72,6 +72,38 @@ namespace DotQueue.Client.Tests
 
             _httpAdapter.Received(count+1).Count();
         }
+
+        [Test]
+        public void Add_Adds_Message_To_Queue()
+        {
+            var message = new Profile();
+            _messageQueue.Add(message);
+            _httpAdapter.Received().Add(message);
+        }
+
+        [Test]
+        public void Add_Throw_If_Message_Is_null()
+        {
+            Profile profile = null;
+            Assert.Throws<ArgumentNullException>(() => _messageQueue.Add(profile));
+        }
+
+        [Test]
+        public void Pull_Returns_Message_From_Adapter()
+        {
+            var expected = new Profile();
+            _httpAdapter.Pull().Returns(expected);
+            var actual = _messageQueue.Pull();
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+        [Test]
+        public void Count_Returns_Message_From_Adapter()
+        {
+            var expected = 5;
+            _httpAdapter.Count().Returns(expected);
+            var actual = _messageQueue.Count();
+            Assert.That(actual, Is.EqualTo(expected));
+        }
     }
 
 }

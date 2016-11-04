@@ -41,6 +41,8 @@ namespace DotQueue.Client
 
         public string Add(T message)
         {
+            if(message == null)
+                throw new ArgumentNullException("message");
             return _httpAdapter.Add(message);
         }
 
