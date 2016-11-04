@@ -5,13 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DotQueue.Client")]
-[assembly: InternalsVisibleTo("DotQueue.Client.Tests")]
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: AssemblyTitle("DotQueue.Client.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DotQueue.Client")]
+[assembly: AssemblyProduct("DotQueue.Client.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6d942d00-fa78-42fa-9416-027b1d1d2eee")]
+[assembly: Guid("279d8a93-c09f-4a72-826f-7da0588ebfb6")]
 
 // Version information for an assembly consists of the following four values:
 //

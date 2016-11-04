@@ -1,37 +1,36 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace DotQueue.Client
 {
     public class MessageQueue<T> : IMessageQueue<T>
     {
-        private DotQueueAddress _address;
-        private string _type;
-        private int _localPort = 8082;
-        private bool _messageFound = false;
-        private bool _subscribed = false;
+        private int _localPort;
+        private bool _messageFound;
+        private bool _subscribed;
         private DateTime _subscriptionConfirmTime = DateTime.MinValue;
         private IHttpAdapter<T> _httpAdapter;
         private IListenerAdapter<T> _listenerAdapter;
+        private ILocalPortResolver _portResolver;
 
         public MessageQueue(DotQueueAddress address)
         {
             _httpAdapter = new HttpAdapter<T>(address);
             _listenerAdapter = new ListenerAdapter<T>();
+            _portResolver = new LocalPortResolver();
             InitializeQueueTasks(address);
         }
 
         internal MessageQueue(DotQueueAddress address, 
-            IHttpAdapter<T> httpAdapter, IListenerAdapter<T> listenerAdapter)
+            IHttpAdapter<T> httpAdapter, 
+            IListenerAdapter<T> listenerAdapter,
+            ILocalPortResolver portResolver)
         {
-
+            _portResolver = portResolver;
+            _localPort = _portResolver.FindFreePort();
             _listenerAdapter = listenerAdapter;
             _httpAdapter = httpAdapter;
             InitializeQueueTasks(address);
@@ -75,8 +74,6 @@ namespace DotQueue.Client
 
         private void InitializeQueueTasks(DotQueueAddress address)
         {
-            _address = address;
-            _type = typeof(T).Name;
             _listenerAdapter.StartListener(_localPort);
             Task.Run(() => SubscribeToQueue(_localPort));
             Task.Run(() => ReSubscribe());

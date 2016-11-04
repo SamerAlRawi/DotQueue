@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6D942D00-FA78-42FA-9416-027B1D1D2EEE}</ProjectGuid>
+    <ProjectGuid>{279D8A93-C09F-4A72-826F-7DA0588EBFB6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotQueue.Client</RootNamespace>
-    <AssemblyName>DotQueue.Client</AssemblyName>
+    <RootNamespace>DotQueue.Client.Tests</RootNamespace>
+    <AssemblyName>DotQueue.Client.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,30 +30,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.1.10.0.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DotQueueAddress.cs" />
-    <Compile Include="HttpAdapter.cs" />
-    <Compile Include="IHttpAdapter.cs" />
-    <Compile Include="IListenerAdapter.cs" />
-    <Compile Include="ILocalPortResolver.cs" />
-    <Compile Include="ListenerAdapter.cs" />
-    <Compile Include="LocalPortResolver.cs" />
-    <Compile Include="Message.cs" />
-    <Compile Include="IMessageQueue.cs" />
-    <Compile Include="MessageQueue.cs" />
+    <Compile Include="Profile.cs" />
+    <Compile Include="MessageQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueueNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotQueue.Client\DotQueue.Client.csproj">
+      <Project>{6d942d00-fa78-42fa-9416-027b1d1d2eee}</Project>
+      <Name>DotQueue.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
