@@ -17,7 +17,7 @@ namespace DotQueue.Client
         private int _localPort = 8082;
         private bool _messageFound = false;
         private bool _subscribed = false;
-        private DateTime _subscriptionConfirmedAt = DateTime.MinValue;
+        private DateTime _subscriptionConfirmTime = DateTime.MinValue;
 
         public MessageQueue(DotQueueAddress address)
         {
@@ -34,7 +34,7 @@ namespace DotQueue.Client
             while (true)
             {
                 Thread.Sleep(5000);
-                if (_subscriptionConfirmedAt < DateTime.Now.Subtract(TimeSpan.FromSeconds(60)))
+                if (_subscriptionConfirmTime < DateTime.Now.Subtract(TimeSpan.FromSeconds(60)))
                 {
                     SubscribeToQueue(_localPort);
                 }
@@ -76,7 +76,7 @@ namespace DotQueue.Client
             if (message.Contains("subscribtion_added"))
             {
                 _subscribed = true;
-                _subscriptionConfirmedAt = DateTime.Now;
+                _subscriptionConfirmTime = DateTime.Now;
             }
             if (message.Contains("new_message"))
             {
@@ -143,7 +143,7 @@ namespace DotQueue.Client
         private string BuildMessage(T message)
         {
             var msg = JsonConvert.SerializeObject(message);
-            var wrapper = new Message { Type = _type, Body = msg };
+            var wrapper = new Message {Type = _type, Body = msg};
             var postData = JsonConvert.SerializeObject(wrapper);
             return postData;
         }
@@ -210,9 +210,15 @@ namespace DotQueue.Client
 
         private void SubscribeToQueue(int localPort)
         {
-            var request = BuildSubscribeHttpRequest(localPort);
-            request.Method = WebRequestMethods.Http.Get;
-            request.GetResponse();
+            try
+            {
+                var request = BuildSubscribeHttpRequest(localPort);
+                request.Method = WebRequestMethods.Http.Get;
+                request.GetResponse();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

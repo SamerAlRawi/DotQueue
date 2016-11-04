@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using DotQueue.HostLib;
 using NUnit.Framework;
@@ -37,14 +38,20 @@ namespace DotQueue.Repository.Tests
             Assert.That(msg.Type, Is.EqualTo(_messageType));
         }
 
-        [Test]
-        public void Add_Increment_Count()
+        [TestCase(10)]
+        [TestCase(33)]
+        [TestCase(223)]
+        [TestCase(88)]
+        public void Add_Increments_Count(int expectedCount)
         {
-            _repository.Add(new Message {Type = _messageType});
-            _repository.Add(new Message {Type = _messageType});
-            _repository.Add(new Message {Type = _messageType});
+            foreach (var message in Enumerable.Repeat(new Message {Type = _messageType}, expectedCount))
+            {
+                _repository.Add(message);
+            }
 
-            Assert.That(_repository.Count(_messageType), Is.EqualTo(3));
+            var actual = _repository.Count(_messageType);
+
+            Assert.That(actual, Is.EqualTo(expectedCount));
         }
 
         [Test]
