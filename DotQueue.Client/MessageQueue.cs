@@ -19,84 +19,22 @@ namespace DotQueue.Client
         private bool _subscribed = false;
         private DateTime _subscriptionConfirmTime = DateTime.MinValue;
         private IHttpAdapter<T> _httpAdapter;
+        private IListenerAdapter<T> _listenerAdapter;
 
         public MessageQueue(DotQueueAddress address)
         {
             _httpAdapter = new HttpAdapter<T>(address);
-            _address = address;
-            _type = typeof(T).Name;
-            InitializeQueueTasks();
+            _listenerAdapter = new ListenerAdapter<T>();
+            InitializeQueueTasks(address);
         }
 
-        internal MessageQueue(DotQueueAddress address, IHttpAdapter<T> httpAdapter)
+        internal MessageQueue(DotQueueAddress address, 
+            IHttpAdapter<T> httpAdapter, IListenerAdapter<T> listenerAdapter)
         {
+
+            _listenerAdapter = listenerAdapter;
             _httpAdapter = httpAdapter;
-            _address = address;
-            _type = typeof(T).Name;
-            InitializeQueueTasks();
-        }
-
-        private void InitializeQueueTasks()
-        {
-            Task.Run(() => StartListener());
-            Task.Run(() => SubscribeToQueue(_localPort));
-            Task.Run(() => ReSubscribe());
-        }
-
-        private Action ReSubscribe()
-        {
-            while (true)
-            {
-                Thread.Sleep(5000);
-                if (_subscriptionConfirmTime < DateTime.Now.Subtract(TimeSpan.FromSeconds(60)))
-                {
-                    SubscribeToQueue(_localPort);
-                }
-            }
-        }
-
-        private void StartListener()
-        {
-            HttpListener listener = new HttpListener();
-            listener.Prefixes.Add($"http://*:{_localPort}/");
-            listener.Start();
-            while (true)
-                try
-                {
-                    {
-                        HttpListenerContext context = listener.GetContext();
-                        HttpListenerRequest request = context.Request;
-                        ProcessRequest(request.Url.LocalPath);
-                        HttpListenerResponse response = context.Response;
-                        string responseString = "OK";
-                        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-                        response.ContentLength64 = buffer.Length;
-                        Stream output = response.OutputStream;
-                        output.Write(buffer, 0, buffer.Length);
-                        output.Close();
-                    }
-
-                }
-                catch (Exception)
-                {
-                    Thread.Sleep(1000);
-                }
-            listener.Stop();
-        }
-
-        private void ProcessRequest(string message)
-        {
-            Console.WriteLine($"Message received: {message}");
-            if (message.Contains("subscribtion_added"))
-            {
-                _subscribed = true;
-                _subscriptionConfirmTime = DateTime.Now;
-            }
-            if (message.Contains("new_message"))
-            {
-                _messageFound = true;
-            }
-
+            InitializeQueueTasks(address);
         }
 
         public string Add(T message)
@@ -133,6 +71,43 @@ namespace DotQueue.Client
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void InitializeQueueTasks(DotQueueAddress address)
+        {
+            _address = address;
+            _type = typeof(T).Name;
+            _listenerAdapter.StartListener(_localPort);
+            Task.Run(() => SubscribeToQueue(_localPort));
+            Task.Run(() => ReSubscribe());
+            _listenerAdapter.NotificationReceived += ProcessNotification;
+        }
+
+        private void ProcessNotification(object sender, QueueNotification e)
+        {
+            Console.WriteLine($"Message received: {e}");
+            if (e == QueueNotification.SubscriptionConfirmed)
+            {
+                _subscribed = true;
+                _subscriptionConfirmTime = DateTime.Now;
+            }
+            if (e == QueueNotification.NewMessage)
+            {
+                _messageFound = true;
+            }
+
+        }
+
+        private Action ReSubscribe()
+        {
+            while (true)
+            {
+                Thread.Sleep(5000);
+                if (_subscriptionConfirmTime < DateTime.Now.Subtract(TimeSpan.FromSeconds(60)))
+                {
+                    SubscribeToQueue(_localPort);
+                }
+            }
         }
 
         private void WaitForNewMessage()

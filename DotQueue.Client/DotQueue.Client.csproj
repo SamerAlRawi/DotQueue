@@ -40,11 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DotQueueAddress.cs" />
+    <Compile Include="HttpAdapter.cs" />
     <Compile Include="IHttpAdapter.cs" />
+    <Compile Include="IListenerAdapter.cs" />
+    <Compile Include="ListenerAdapter.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="IMessageQueue.cs" />
     <Compile Include="MessageQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
