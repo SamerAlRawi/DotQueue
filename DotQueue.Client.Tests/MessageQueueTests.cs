@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -48,6 +49,28 @@ namespace DotQueue.Client.Tests
         {
             Thread.Sleep(1000);
             _httpAdapter.Received(11).Subscribe(_defaultLocalPort);
+        }
+
+        [Test]
+        public void Loop_Yields_Results_If_Count_Greater_Than_0()
+        {
+            _durationHelper.NewMessageWaitDuration().Returns(TimeSpan.FromMilliseconds(100));
+            _messageQueue.Count().Returns(3, 2, 1, 0);
+            var item = new Profile();
+            _messageQueue.Pull().Returns(item);
+            int count = 0;
+
+            Task.Run(() =>
+            {
+                foreach (var profile in _messageQueue)
+                {
+                    count++;
+                }
+            });
+
+            Thread.Sleep(1000);
+
+            _httpAdapter.Received(count+1).Count();
         }
     }
 

@@ -4,7 +4,7 @@
     {
         public int FindFreePort()
         {
-            throw new System.NotImplementedException();
+            return 3345;
         }
     }
 }
