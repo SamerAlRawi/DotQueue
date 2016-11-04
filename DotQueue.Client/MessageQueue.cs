@@ -15,20 +15,23 @@ namespace DotQueue.Client
         private IHttpAdapter<T> _httpAdapter;
         private IListenerAdapter<T> _listenerAdapter;
         private ILocalPortResolver _portResolver;
+        private IWaitDurationHelper _durationHelper;
 
         public MessageQueue(DotQueueAddress address)
         {
             _httpAdapter = new HttpAdapter<T>(address);
             _listenerAdapter = new ListenerAdapter<T>();
             _portResolver = new LocalPortResolver();
+            _durationHelper = new WaitDurationHelper();
             InitializeQueueTasks(address);
         }
 
         internal MessageQueue(DotQueueAddress address, 
             IHttpAdapter<T> httpAdapter, 
             IListenerAdapter<T> listenerAdapter,
-            ILocalPortResolver portResolver)
+            ILocalPortResolver portResolver, IWaitDurationHelper durationHelper)
         {
+            _durationHelper = durationHelper;
             _portResolver = portResolver;
             _localPort = _portResolver.FindFreePort();
             _listenerAdapter = listenerAdapter;
@@ -99,8 +102,8 @@ namespace DotQueue.Client
         {
             while (true)
             {
-                Thread.Sleep(5000);
-                if (_subscriptionConfirmTime < DateTime.Now.Subtract(TimeSpan.FromSeconds(60)))
+                Thread.Sleep(_durationHelper.SubscribtionRenewalSpan());
+                if (_subscriptionConfirmTime < DateTime.Now.Subtract(_durationHelper.SubscribtionRenewalSpan()))
                 {
                     SubscribeToQueue(_localPort);
                 }

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -13,16 +14,19 @@ namespace DotQueue.Client.Tests
         private IHttpAdapter<Profile> _httpAdapter;
         private ILocalPortResolver _portResolver;
         private int _defaultLocalPort = 1122;
+        private IWaitDurationHelper _durationHelper;
 
         [SetUp]
         public void Setup()
         {
+            _durationHelper = Substitute.For<IWaitDurationHelper>();
+            _durationHelper.SubscribtionRenewalSpan().Returns(TimeSpan.FromMilliseconds(100));
             _portResolver = Substitute.For<ILocalPortResolver>();
             _portResolver.FindFreePort().Returns(_defaultLocalPort);
             _listenerAdapter = Substitute.For<IListenerAdapter<Profile>>();
             _httpAdapter = Substitute.For<IHttpAdapter<Profile>>();
             _messageQueue = new MessageQueue<Profile>(_defaultAddress, 
-                _httpAdapter, _listenerAdapter, _portResolver);    
+                _httpAdapter, _listenerAdapter, _portResolver, _durationHelper);    
         }
 
         [Test]
@@ -43,7 +47,8 @@ namespace DotQueue.Client.Tests
         public void Renew_Subscription_After_Period()
         {
             Thread.Sleep(1000);
-            _httpAdapter.Received().Subscribe(_defaultLocalPort);
+            _httpAdapter.Received(11).Subscribe(_defaultLocalPort);
         }
     }
+
 }
