@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DotQueue.Client
@@ -23,7 +21,7 @@ namespace DotQueue.Client
         }
 
         public event EventHandler<QueueNotification> NotificationReceived;
-        
+
         private void StartListener()
         {
             HttpListener listener = new HttpListener();
@@ -37,8 +35,7 @@ namespace DotQueue.Client
                         HttpListenerRequest request = context.Request;
                         ProcessRequest(request.Url.LocalPath);
                         HttpListenerResponse response = context.Response;
-                        string responseString = "OK";
-                        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                        byte[] buffer = { 79, 75 };//OK
                         response.ContentLength64 = buffer.Length;
                         Stream output = response.OutputStream;
                         output.Write(buffer, 0, buffer.Length);
@@ -48,7 +45,7 @@ namespace DotQueue.Client
                 }
                 catch (Exception)
                 {
-                    Thread.Sleep(1000);
+
                 }
             listener.Stop();
         }
