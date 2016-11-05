@@ -105,5 +105,4 @@ namespace DotQueue.Client.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
     }
-
 }
