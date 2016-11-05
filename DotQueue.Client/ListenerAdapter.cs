@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace DotQueue.Client
 {
-    internal class ListenerAdapter<T> : IListenerAdapter<T>
+    internal class ListenerAdapter<T> : IListenerAdapter<T>, IDisposable
     {
         private int _localPort;
         private bool _listenerStarted;
+        private bool _running = true;
 
         public void StartListener(int port)
         {
@@ -27,7 +28,7 @@ namespace DotQueue.Client
             HttpListener listener = new HttpListener();
             listener.Prefixes.Add($"http://*:{_localPort}/");
             listener.Start();
-            while (true)
+            while (_running)
                 try
                 {
                     {
@@ -48,6 +49,7 @@ namespace DotQueue.Client
 
                 }
             listener.Stop();
+            listener.Close();
         }
 
         private void ProcessRequest(string message)
@@ -69,6 +71,11 @@ namespace DotQueue.Client
             {
                 NotificationReceived(this, notification);
             }
+        }
+
+        public void Dispose()
+        {
+            _running = false;
         }
     }
 }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListenerAdapterTests.cs" />
     <Compile Include="LocalPortResolverTests.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="MessageQueueTests.cs" />
