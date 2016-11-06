@@ -10,6 +10,7 @@ namespace DotQueue.Client.Tests
     public class ListenerAdapterTests
     {
         private ListenerAdapter<Profile> _adapter;
+
         [SetUp]
         public void Setup()
         {

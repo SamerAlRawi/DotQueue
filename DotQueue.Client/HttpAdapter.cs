@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace DotQueue.Client
 {
@@ -10,11 +9,13 @@ namespace DotQueue.Client
     {
         private DotQueueAddress _address;
         private string _type;
-
-        public HttpAdapter(DotQueueAddress address)
+        private IJsonSerializer<T> _serializer;
+        
+        public HttpAdapter(DotQueueAddress address, IJsonSerializer<T> serializer)
         {
             _address = address;
             _type = typeof(T).Name;
+            _serializer = serializer;
         }
 
         public string Add(T message)
@@ -31,7 +32,7 @@ namespace DotQueue.Client
             var request = BuildPullHttpRequest();
             SetHeaders(request, WebRequestMethods.Http.Get);
             var json = GetResponseFromServer(request);
-            return JsonConvert.DeserializeObject<T>(json);
+            return _serializer.Deserialize(json);
         }
 
         public int Count()
@@ -78,9 +79,9 @@ namespace DotQueue.Client
 
         private string BuildMessage(T message)
         {
-            var msg = JsonConvert.SerializeObject(message);
+            var msg = _serializer.Serialize(message);
             var wrapper = new Message { Type = _type, Body = msg };
-            var postData = JsonConvert.SerializeObject(wrapper);
+            var postData = _serializer.Serialize(wrapper);
             return postData;
         }
 

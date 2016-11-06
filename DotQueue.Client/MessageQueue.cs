@@ -19,7 +19,7 @@ namespace DotQueue.Client
 
         public MessageQueue(DotQueueAddress address)
         {
-            _httpAdapter = new HttpAdapter<T>(address);
+            _httpAdapter = new HttpAdapter<T>(address, new JsonSerializer<T>());
             _listenerAdapter = new ListenerAdapter<T>();
             _portResolver = new LocalPortResolver();
             _durationHelper = new WaitDurationHelper();

@@ -48,11 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpAdapterTests.cs" />
     <Compile Include="ListenerAdapterTests.cs" />
     <Compile Include="LocalPortResolverTests.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="MessageQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaitDurationHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
