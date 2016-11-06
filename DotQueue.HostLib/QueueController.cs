@@ -33,12 +33,6 @@ namespace DotQueue.HostLib
         {
             return _repository.Count(category);
         }
-
-        [HttpGet]
-        public string AreYouAlive()
-        {
-            return "OK";
-        }
     }
 }
 
