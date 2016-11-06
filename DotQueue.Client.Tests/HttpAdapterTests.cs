@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace DotQueue.Client.Tests
 {
     [TestFixture, Explicit]
-    [Category("Integration")]
+    [Category("no_ci")]
     public class HttpAdapterTests
     {
         private HttpAdapter<Profile> _adapter;
@@ -66,7 +66,7 @@ namespace DotQueue.Client.Tests
             Assert.AreEqual(request.Headers["Content-Type"], _applicationJsonHeader);
             Assert.AreEqual(request.Headers["Accept"], _applicationJsonHeader);
             Assert.That(request.Url.LocalPath, Is.EqualTo("/api/Queue/Pull"));
-            Assert.IsTrue(request.Url.Query ==$"?category={typeof(Profile).Name}");
+            Assert.AreEqual(request.Url.Query, $"?category={typeof(Profile).Name}");
             Assert.That(request.HttpMethod, Is.EqualTo("GET"));
             Assert.AreEqual(actual, profile);
         }
@@ -82,9 +82,21 @@ namespace DotQueue.Client.Tests
             Assert.AreEqual(request.Headers["Content-Type"], _applicationJsonHeader);
             Assert.AreEqual(request.Headers["Accept"], _applicationJsonHeader);
             Assert.That(request.Url.LocalPath, Is.EqualTo("/api/Queue/Count"));
-            Assert.IsTrue(request.Url.Query == $"?category={typeof(Profile).Name}");
+            Assert.AreEqual(request.Url.Query, $"?category={typeof(Profile).Name}");
             Assert.That(request.HttpMethod, Is.EqualTo("GET"));
             Assert.AreEqual(actual, int.Parse(_mockResponse));
+        }
+
+        [Test]
+        public void Subscribe_Request_Include_Category_And_Port()
+        {
+            var localPort = 2323;
+            var actual = _adapter.Subscribe(localPort);
+
+            var request = _requests.First();
+            Assert.That(request.Url.LocalPath, Is.EqualTo("/api/Subscribe/Subscribe"));
+            Assert.AreEqual(request.Url.Query, $"?category={typeof(Profile).Name}&port={localPort}");
+            Assert.That(request.HttpMethod, Is.EqualTo("GET"));
         }
 
         [TearDown]
