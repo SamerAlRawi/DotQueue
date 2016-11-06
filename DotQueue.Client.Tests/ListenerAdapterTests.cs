@@ -5,7 +5,8 @@ using NUnit.Framework;
 
 namespace DotQueue.Client.Tests
 {
-    [TestFixture]
+    [TestFixture, Explicit]
+    [Category("Integration")]
     public class ListenerAdapterTests
     {
         private ListenerAdapter<Profile> _adapter;
