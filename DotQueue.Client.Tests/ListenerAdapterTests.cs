@@ -5,8 +5,7 @@ using NUnit.Framework;
 
 namespace DotQueue.Client.Tests
 {
-    [TestFixture, Explicit]
-    [Category("no_ci")]
+    [TestFixture, Explicit, Category("no_ci")]
     public class ListenerAdapterTests
     {
         private ListenerAdapter<Profile> _adapter;

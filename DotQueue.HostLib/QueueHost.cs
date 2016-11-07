@@ -1,7 +1,10 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Routing;
 using System.Web.Http.SelfHost;
 using DotQueue.HostLib.IOC;
@@ -34,7 +37,7 @@ namespace DotQueue.HostLib
             configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
             configuration.DependencyResolver = ContainerBuilder.GetContainer();
             configuration.Formatters.Insert(0, new JsonpMediaTypeFormatter(new JsonMediaTypeFormatter(), "callback"));
-            
+            //configuration.Services.Replace(typeof(IExceptionHandler), new DebuggingExceptionHandler());
             _httpSelfHostServer = new HttpSelfHostServer(configuration);
             _httpSelfHostServer.OpenAsync().Wait();
         }
@@ -43,6 +46,14 @@ namespace DotQueue.HostLib
         {
             _httpSelfHostServer.CloseAsync();
             _httpSelfHostServer.Dispose();
+        }
+    }
+
+    internal class DebuggingExceptionHandler : IExceptionHandler
+    {
+        public Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
+        {
+            return null;
         }
     }
 }
