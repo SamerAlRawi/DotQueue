@@ -30,7 +30,7 @@ Create a new console application
 Install-Package TopShelf
 Install-Package DotQueue.HostLib
 ```
-
+Copy the following code to your Program.cs
 ```c
 private static int _apiPort = 8083;
 
@@ -54,7 +54,7 @@ static void Main(string[] args)
 }
 ```
 	
-###### to install the service, run the following command as Admin after building your .exe file
+to install the service, run the following command using cmd.exe as Admin after building your .exe file
 
 ```bash
 your_file.exe install
