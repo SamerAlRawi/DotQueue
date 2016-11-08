@@ -2,7 +2,7 @@
 {
     internal static class TokenValidationProvider
     {
-        public static bool CheckAuthorization { get; set; }
-        public static IApiTokenValidator Validator { get; set; }
+        internal static bool CheckAuthorization { get; set; }
+        internal static IApiTokenValidator Validator { get; set; }
     }
 }

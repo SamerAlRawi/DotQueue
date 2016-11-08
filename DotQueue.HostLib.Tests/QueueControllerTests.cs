@@ -3,7 +3,7 @@ using DotQueue.HostLib;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace DotQueue.Repository.Tests
+namespace DotQueue.HostLib.Tests
 {
     [TestFixture]
     public class QueueControllerTests

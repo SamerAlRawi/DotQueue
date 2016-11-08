@@ -7,8 +7,8 @@
     <ProjectGuid>{4B194352-0171-41F4-971F-5F7E1CC6678F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotQueue.Repository.Tests</RootNamespace>
-    <AssemblyName>DotQueue.Repository.Tests</AssemblyName>
+    <RootNamespace>DotQueue.HostLib.Tests</RootNamespace>
+    <AssemblyName>DotQueue.HostLib.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

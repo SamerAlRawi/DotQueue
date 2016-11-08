@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
-using DotQueue.HostLib;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace DotQueue.Repository.Tests
+namespace DotQueue.HostLib.Tests
 {
     [TestFixture, Category("no_ci")]
     public class QueueHostTests
@@ -95,6 +92,16 @@ namespace DotQueue.Repository.Tests
                 }
             }
             Assert.AreEqual(responseFromServer, "\"YES\"");
+        }
+        
+        [Test]
+        public void TokenProvider_Is_Initialized_If_tokenValidation_specified()
+        {
+            var tokenValidator = Substitute.For<IApiTokenValidator>();
+            _host = new QueueHost(_defaultPort, tokenValidator);
+            Thread.Sleep(1000);
+            Assert.IsTrue(TokenValidationProvider.CheckAuthorization);
+            Assert.AreEqual(tokenValidator, TokenValidationProvider.Validator);
         }
         
         [TearDown]

@@ -56,8 +56,11 @@ namespace DotQueue.HostLib
 
         public void Stop()
         {
-            _httpSelfHostServer.CloseAsync();
-            _httpSelfHostServer.Dispose();
+            if (_httpSelfHostServer != null)
+            {
+                _httpSelfHostServer.CloseAsync();
+                _httpSelfHostServer.Dispose();
+            }
         }
     }
 

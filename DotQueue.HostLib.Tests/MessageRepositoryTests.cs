@@ -4,7 +4,7 @@ using System.Threading;
 using DotQueue.HostLib;
 using NUnit.Framework;
 
-namespace DotQueue.Repository.Tests
+namespace DotQueue.HostLib.Tests
 {
     [TestFixture]
     public class MessageRepositoryTests
