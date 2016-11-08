@@ -6,7 +6,7 @@
 - Fully managed
 - Concurrent and thread safe
 - Pub-Sub is in it's core
-- Authentication
+- Token based authentication
 - Persistance
 - Minimal code needed to embed in your application
 

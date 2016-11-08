@@ -4,6 +4,7 @@ using System.Web.Http;
 
 namespace DotQueue.HostLib
 {
+    [ApiTokenFilter]
     public class QueueController : ApiController
     {
         private IMessageRepository _repository;

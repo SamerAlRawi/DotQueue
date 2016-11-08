@@ -16,10 +16,22 @@ namespace DotQueue.HostLib
     {
         private HttpSelfHostServer _httpSelfHostServer;
         private int _port;
+        private IApiTokenValidator _tokenValidator;
 
-        public QueueHost(int port)
+        public QueueHost(int port, IApiTokenValidator tokenValidator = null)
         {
+            _tokenValidator = tokenValidator;
             _port = port;
+            ConfigureAuthentication();
+        }
+
+        private void ConfigureAuthentication()
+        {
+            if (_tokenValidator != null)
+            {
+                TokenValidationProvider.CheckAuthorization = true;
+                TokenValidationProvider.Validator = _tokenValidator;
+            }
         }
 
         public void Start()
