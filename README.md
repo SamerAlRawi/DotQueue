@@ -70,7 +70,7 @@ Install-Package DotQueue.Client
 
 ```c
 public class Subscriber{
-	public string Email{get;set;}
+      public string Email { get; set; }
 }
 ```
 ```c
@@ -79,6 +79,11 @@ var queue = new MessageQueue<Subscriber>(new DotQueueAddress
        IpAddress = IPAddress.Parse("127.0.0.1"),
        Port = 8083
    });
+/*
+below endless loop
+subscribe and wait for messages to be published
+MessageQueue class implements IEnumerable<>
+*/
 foreach (var subscriber in queue)
    {
 		//Will print any message sent to queue
