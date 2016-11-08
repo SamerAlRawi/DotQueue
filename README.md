@@ -50,7 +50,6 @@ static void Main(string[] args)
         x.SetDisplayName("DotQueue");
         x.SetServiceName("DotQueue");
     });
-    Console.Read();
 }
 ```
 	
