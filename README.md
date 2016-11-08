@@ -9,6 +9,8 @@
 - Token based authentication
 - Persistance
 - Minimal code needed to embed in your application
+- supports JSONP for cross domain in-browser access
+- REST api for other programming languages use 
 
 #### Example HostLib
 
@@ -109,8 +111,4 @@ var queue = new MessageQueue<Subscriber>(new DotQueueAddress
 var messageId = queue.Add(new Subscriber());
 ```
 
-WIP:
-
-more example projects.
-
-more sample code.
+TODO: Authentication token examples
