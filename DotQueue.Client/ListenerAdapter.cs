@@ -54,7 +54,6 @@ namespace DotQueue.Client
 
         private void ProcessRequest(string message)
         {
-            Console.WriteLine($"Message received: {message}");
             if (message.Contains("subscribtion_added"))
             {
                 Notify(QueueNotification.SubscriptionConfirmed);

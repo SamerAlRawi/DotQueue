@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,9 +20,8 @@ namespace DotQueue.Client.DemoConsole
             {
                 while (true)
                 {
-                    var messageId = queue.Add(new Subscriber());
+                    var uniqueMessaeId = queue.Add(new Subscriber());
                     Thread.Sleep(500);
-                    //Console.WriteLine(messageId);
                 }
             });
             Thread.Sleep(1000);//wait for the subscription
@@ -36,7 +36,7 @@ namespace DotQueue.Client.DemoConsole
     {
         public string Id { get; set; } = "1001";
         public string Name { get; set; } = "User1";
-        public string Email { get; set; } = "user@email.tld";
+        public string Email { get; set; } = $"{Guid.NewGuid().ToString().Split('-').First()}@gmail.com";
         public int ZipCode { get; set; } = 44101;
     }
 }

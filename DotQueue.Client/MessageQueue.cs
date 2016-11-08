@@ -88,7 +88,6 @@ namespace DotQueue.Client
 
         private void ProcessNotification(object sender, QueueNotification e)
         {
-            Console.WriteLine($"Message received: {e}");
             if (e == QueueNotification.SubscriptionConfirmed)
             {
                 _subscribed = true;
