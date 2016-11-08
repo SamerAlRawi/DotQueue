@@ -19,7 +19,7 @@ Create a new console application
 Install-Package DotQueue.HostLib
 ```
 
-```c
+```csharp
 var httpPort = 8083; //Can be any other port#
 var host = new QueueHost(httpPort);
 host.Start();
@@ -33,7 +33,7 @@ Install-Package TopShelf
 Install-Package DotQueue.HostLib
 ```
 Copy the following code to your Program.cs
-```c
+```csharp
 private static int _apiPort = 8083;
 
 static void Main(string[] args)
@@ -69,12 +69,12 @@ Create a new console application
 Install-Package DotQueue.Client
 ```
 
-```c
+```csharp
 public class Subscriber{
       public string Email { get; set; }
 }
 ```
-```c
+```csharp
 var queue = new MessageQueue<Subscriber>(new DotQueueAddress
    {
        IpAddress = IPAddress.Parse("127.0.0.1"),
@@ -100,7 +100,7 @@ Create a new console application
 Install-Package DotQueue.Client
 ```
 
-```c
+```csharp
 var queue = new MessageQueue<Subscriber>(new DotQueueAddress
     {
         IpAddress = IPAddress.Parse("127.0.0.1"),
