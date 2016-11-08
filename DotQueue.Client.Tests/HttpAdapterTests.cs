@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace DotQueue.Client.Tests
 {
-    [TestFixture, Explicit, Category("no_ci")]
+    [TestFixture, Category("no_ci")]
     public class HttpAdapterTests
     {
         private HttpAdapter<Profile> _adapter;

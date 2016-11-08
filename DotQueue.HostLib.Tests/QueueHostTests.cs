@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace DotQueue.Repository.Tests
 {
-    [TestFixture, Category("no_ci"), Explicit]
+    [TestFixture, Category("no_ci")]
     public class QueueHostTests
     {
         private QueueHost _host;
