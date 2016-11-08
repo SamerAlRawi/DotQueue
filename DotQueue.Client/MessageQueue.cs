@@ -16,10 +16,12 @@ namespace DotQueue.Client
         private IListenerAdapter<T> _listenerAdapter;
         private ILocalPortResolver _portResolver;
         private IWaitDurationHelper _durationHelper;
+        private IApiTokenSource _tokenSource;
 
-        public MessageQueue(DotQueueAddress address)
+        public MessageQueue(DotQueueAddress address, IApiTokenSource tokenSource = null)
         {
-            _httpAdapter = new HttpAdapter<T>(address, new JsonSerializer<T>());
+            _tokenSource = tokenSource;
+            _httpAdapter = new HttpAdapter<T>(address, new JsonSerializer<T>(), _tokenSource);
             _listenerAdapter = new ListenerAdapter<T>();
             _portResolver = new LocalPortResolver();
             _durationHelper = new WaitDurationHelper();

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="DotQueueAddress.cs" />
     <Compile Include="HttpAdapter.cs" />
+    <Compile Include="IApiTokenSource.cs" />
     <Compile Include="IHttpAdapter.cs" />
     <Compile Include="IJsonSerializer.cs" />
     <Compile Include="IListenerAdapter.cs" />

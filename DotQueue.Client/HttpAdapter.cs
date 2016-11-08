@@ -10,9 +10,11 @@ namespace DotQueue.Client
         private DotQueueAddress _address;
         private string _type;
         private IJsonSerializer<T> _serializer;
-        
-        public HttpAdapter(DotQueueAddress address, IJsonSerializer<T> serializer)
+        private IApiTokenSource _tokenSource;
+
+        public HttpAdapter(DotQueueAddress address, IJsonSerializer<T> serializer, IApiTokenSource tokenSource = null)
         {
+            _tokenSource = tokenSource;
             _address = address;
             _type = typeof(T).Name;
             _serializer = serializer;
@@ -58,23 +60,20 @@ namespace DotQueue.Client
 
         private HttpWebRequest BuildPullHttpRequest()
         {
-            var request =
-                WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?category={_type}") as
-                    HttpWebRequest;
-            return request;
+            var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Queue/Pull?category={_type}";
+            return BuildRequest(requestUriString);
         }
 
         private HttpWebRequest BuildCountHttpRequest()
         {
             var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Queue/Count?category={_type}";
-            var request = WebRequest.Create(requestUriString) as HttpWebRequest;
-            return request;
+            return BuildRequest(requestUriString);
         }
         
         private HttpWebRequest BuildAddHttpRequest()
         {
-            var request = WebRequest.Create($"http://{_address.IpAddress}:{_address.Port}/api/Queue/Add") as HttpWebRequest;
-            return request;
+            var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Queue/Add";
+            return BuildRequest(requestUriString);
         }
 
         private string BuildMessage(T message)
@@ -111,18 +110,26 @@ namespace DotQueue.Client
 
         private void SubscribeToQueue(int port)
         {
-            var requestUriString =
-                $"http://{_address.IpAddress}:{_address.Port}/api/Subscribe/Subscribe?category={_type}&port={port}";
-            var request = WebRequest.Create(requestUriString) as HttpWebRequest;
+            var requestUriString = $"http://{_address.IpAddress}:{_address.Port}/api/Subscribe/Subscribe?category={_type}&port={port}";
+            var request = BuildRequest(requestUriString);
             request.Method = WebRequestMethods.Http.Get;
             request.GetResponse();
         }
 
-        private static void SetHeaders(HttpWebRequest request, string method)
+        private HttpWebRequest BuildRequest(string requestUriString)
+        {
+            return WebRequest.Create(requestUriString) as HttpWebRequest;
+        }
+
+        private void SetHeaders(HttpWebRequest request, string method)
         {
             request.Method = method;
             request.ContentType = "application/json";
             request.Accept = "application/json";
+            if (_tokenSource != null)
+            {
+                request.Headers.Add("Api-Token", _tokenSource.GetToken());
+            }
         }
 
     }

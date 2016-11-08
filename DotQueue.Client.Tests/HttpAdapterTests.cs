@@ -98,6 +98,59 @@ namespace DotQueue.Client.Tests
             Assert.That(request.HttpMethod, Is.EqualTo("GET"));
         }
 
+        [Test]
+        public void Count_Sets_Api_Token_Header_If_Token_Source_Is_specified()
+        {
+            _mockResponse = "33";
+            var token = "3314-3040-4420_any_text";
+            var tokenSource = Substitute.For<IApiTokenSource>();
+            tokenSource.GetToken().Returns(token);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+
+            _adapter.Count();
+
+            Assert.That(_requests.First().Headers["Api-Token"], Is.EqualTo(token));
+        }
+
+        [Test]
+        public void Pull_Sets_Api_Token_Header_If_Token_Source_Is_specified()
+        {
+            var token = "3314-0000-4420_any_text";
+            var tokenSource = Substitute.For<IApiTokenSource>();
+            tokenSource.GetToken().Returns(token);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+
+            _adapter.Pull();
+
+            Assert.That(_requests.First().Headers["Api-Token"], Is.EqualTo(token));
+        }
+
+        [Test]
+        public void Post_Sets_Api_Token_Header_If_Token_Source_Is_specified()
+        {
+            var token = "3314-2222-4420_any_text";
+            var tokenSource = Substitute.For<IApiTokenSource>();
+            tokenSource.GetToken().Returns(token);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+
+            _adapter.Pull();
+
+            Assert.That(_requests.First().Headers["Api-Token"], Is.EqualTo(token));
+        }
+
+        [Test]
+        public void Subscribe_Does_Not_Set_Api_Token_Header_If_Token_Source_Is_specified()
+        {
+            var token = "3314-2222-4420_any_text";
+            var tokenSource = Substitute.For<IApiTokenSource>();
+            tokenSource.GetToken().Returns(token);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+
+            _adapter.Subscribe(2020);
+
+            Assert.IsFalse(_requests.First().Headers.AllKeys.Contains("Api-Token"));
+        }
+
         [TearDown]
         public void Clear()
         {
