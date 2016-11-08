@@ -19,7 +19,7 @@ namespace DotQueue.Repository.Tests
         public void Api_Is_Running()
         {
             _host = new QueueHost(_defaultPort);
-            Task.Run(() => _host.Start());
+            new Thread(_host.Start).Start();
             Thread.Sleep(2000);
 
             var request = WebRequest.Create($"http://127.0.0.1:{_defaultPort}/api/Queue/AreYouAlive") as HttpWebRequest;
@@ -47,7 +47,7 @@ namespace DotQueue.Repository.Tests
             tokenValidator.IsValidToken(tokenValue).Returns(true);
 
             _host = new QueueHost(_defaultPort, tokenValidator);
-            Task.Run(() => _host.Start());
+            new Thread(_host.Start).Start();
             Thread.Sleep(2000);
 
             var request = WebRequest.Create($"http://127.0.0.1:{_defaultPort}/api/Queue/AreYouAlive") as HttpWebRequest;
@@ -55,9 +55,8 @@ namespace DotQueue.Repository.Tests
             request.Timeout = 3000;
             request.ContentType = "application/json";
             request.Accept = "application/json";
-
-            string responseFromServer = "";
-            object responseCode = null;
+            
+            HttpStatusCode responseCode = HttpStatusCode.Accepted;
             try
             {
                 request.GetResponse();
@@ -69,6 +68,7 @@ namespace DotQueue.Repository.Tests
             Assert.AreEqual(HttpStatusCode.Unauthorized, responseCode);
         }
 
+        [Test]
         public void Token_Is_required_If_TokenValidation_specified()
         {
             var tokenValidator = Substitute.For<IApiTokenValidator>();
@@ -76,7 +76,7 @@ namespace DotQueue.Repository.Tests
             tokenValidator.IsValidToken(tokenValue).Returns(true);
 
             _host = new QueueHost(_defaultPort, tokenValidator);
-            Task.Run(() => _host.Start());
+            new Thread(_host.Start).Start();
             Thread.Sleep(2000);
 
             var request = WebRequest.Create($"http://127.0.0.1:{_defaultPort}/api/Queue/AreYouAlive") as HttpWebRequest;
