@@ -40,21 +40,27 @@ namespace DotQueue.Client.Tests
         [Test]
         public void Subscribe_To_Queue()
         {
-            Thread.Sleep(1000);
             _httpAdapter.Received().Subscribe(_defaultLocalPort);
         }
 
         [Test]
         public void Renew_Subscription_After_Period()
         {
+            var count = 0;
+            _httpAdapter.When(a => a.Subscribe(_defaultLocalPort)).Do(_ =>
+            {
+                count++;
+            });
+
             Thread.Sleep(1000);
-            _httpAdapter.Received(11).Subscribe(_defaultLocalPort);
+            Assert.That(count, Is.GreaterThan(1));
+            _httpAdapter.Received(count+1).Subscribe(_defaultLocalPort);
         }
 
         [Test]
         public void Loop_Yields_Results_If_Count_Greater_Than_0()
         {
-            _durationHelper.NewMessageWaitDuration().Returns(TimeSpan.FromMilliseconds(100));
+            _durationHelper.NewMessageWaitDuration().Returns(TimeSpan.FromMilliseconds(50));
             _messageQueue.Count().Returns(3, 2, 1, 0);
             var item = new Profile();
             _messageQueue.Pull().Returns(item);

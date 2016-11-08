@@ -1,4 +1,5 @@
-﻿using DotQueue.HostLib;
+﻿using System.Threading;
+using DotQueue.HostLib;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -22,7 +23,7 @@ namespace DotQueue.Repository.Tests
         {
             var message = new Message();
             _controller.Add(message);
-
+            Thread.Sleep(1000);
             _repository.Received().Add(message);
         }
 

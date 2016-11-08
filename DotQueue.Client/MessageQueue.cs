@@ -81,8 +81,8 @@ namespace DotQueue.Client
         {
             _localPort = _portResolver.FindFreePort();
             _listenerAdapter.StartListener(_localPort);
-            Task.Run(() => SubscribeToQueue(_localPort));
-            Task.Run(() => ReSubscribe());
+            new Thread(() => SubscribeToQueue(_localPort)).Start();
+            new Thread(ReSubscribe).Start();
             _listenerAdapter.NotificationReceived += ProcessNotification;
         }
 
