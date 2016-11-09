@@ -12,7 +12,24 @@
 - supports JSONP for cross domain in-browser access
 - REST api for other programming languages use 
 
-#### Example HostLib
+#### Examples:
+[Queue host example](#hostlib)
+
+[Example HostLib(Windows service) using topshelf](#hostlibsvc)
+
+[Queue client(subscriber)](#client)
+
+[Queue client(subscriber)](#client)
+
+[Send message to queue](#broadcast)
+
+[Authentication - Queue host](#hostlibauth)
+
+[Authentication - Client subscriber](#clientauth)
+
+
+
+#### <a name="hostlib"></a>Example HostLib
 
 Create a new console application
 ```
@@ -26,7 +43,7 @@ host.Start();
 Console.ReadLine();
 ```
 
-#### HostLib using TopShelf and install as a windows service
+#### <a name="hostlibsvc"></a>HostLib using TopShelf and install as a windows service
 Create a new console application
 ```
 Install-Package TopShelf
@@ -55,13 +72,13 @@ static void Main(string[] args)
 }
 ```
 	
-to install the service, run the following command using cmd.exe as Admin after building your .exe file
+To install the service, run the following command using cmd.exe as Admin after building your .exe file
 
 ```bash
 your_file.exe install
 ```
 
-### Client MessageQueue Example
+### <a name="client"></a>Client MessageQueue Example
 
 Create a new console application
 
@@ -70,14 +87,14 @@ Install-Package DotQueue.Client
 ```
 
 ```csharp
-public class Subscriber{
+public class MyClass{
       public string Email { get; set; }
 }
 ```
 ```csharp
-var queue = new MessageQueue<Subscriber>(new DotQueueAddress
+var queue = new MessageQueue<MyClass>(new DotQueueAddress
    {
-       IpAddress = IPAddress.Parse("127.0.0.1"),
+       IpAddress = IPAddress.Parse("127.0.0.1"),//IP address or hostname of the queue host
        Port = 8083
    });
 /*
@@ -85,13 +102,13 @@ below endless loop
 subscribe and wait for messages to be published
 MessageQueue class implements IEnumerable<>
 */
-foreach (var subscriber in queue)
+foreach (var message in queue)
    {
 		//Will print any message sent to queue
-       Console.WriteLine(subscriber.Email);
+       Console.WriteLine(message.Email);
    }
 ```
-#### to send a message to the queue
+#### <a name="broadcast"></a>to send a message to the queue
 
 
 Create a new console application
@@ -101,14 +118,68 @@ Install-Package DotQueue.Client
 ```
 
 ```csharp
-var queue = new MessageQueue<Subscriber>(new DotQueueAddress
+var queue = new MessageQueue<MyClass>(new DotQueueAddress
     {
-        IpAddress = IPAddress.Parse("127.0.0.1"),
+        IpAddress = IPAddress.Parse("127.0.0.1"),//IP address or hostname of the queue host
         Port = 8083
     });
 //Below line will send a new message to the queue
 //Any listener will receive the same message
-var messageId = queue.Add(new Subscriber());
+var messageId = queue.Add(new MyClass());
 ```
 
-TODO: Authentication token examples
+#### <a name="hostlibauth"></a>Queue host authentication
+Specifying IApiTokenValidator when constructing the QueueHost will require a token specified for all subscribers calls
+
+example implementation of a token validator:
+```csharp
+public class ApiTokenValidator : IApiTokenValidator
+{
+   public bool IsValidToken(string token)
+   {
+      //validate token against your static list or dynamic tokens
+      return true; //if token is valid
+   }
+}
+```
+injecting validator to QueueHost
+```csharp
+var validator = new ApiTokenValidator();
+//use validator when constructing queue host
+var host = new QueueHost(httpPort, validator);
+host.Start();
+```
+
+#### <a name="clientauth"></a>Queue client authentication
+Specifying IApiTokenSource when constructing the MessageQueue will add authentication token to client
+example implementation of a token source:
+```csharp
+public class ApiTokenSource : IApiTokenSource
+{
+   public string GetToken()
+   {
+      //generate a token or use a static GUID or string here
+      return 'token_secret_here'; 
+   }
+}
+```
+injecting token source to MessageQueue
+
+```csharp
+var tokenSource = new ApiTokenSource();
+//use token source when constructing message queue client
+var address = new DotQueueAddress
+   {
+       IpAddress = IPAddress.Parse("127.0.0.1"),//IP address or hostname of the queue host
+       Port = 8083
+   }
+var queue = new MessageQueue<MyClass>(address, tokenSource);
+
+//send message to queue
+queue.Add(new MyClass());
+
+//subscribe and wait for message
+foreach(var item in queue){
+   //start processing items here
+}
+```
