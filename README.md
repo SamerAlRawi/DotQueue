@@ -19,8 +19,6 @@
 
 [Queue client(subscriber)](#client)
 
-[Queue client(subscriber)](#client)
-
 [Send message to queue](#broadcast)
 
 [Authentication - Queue host](#hostlibauth)
