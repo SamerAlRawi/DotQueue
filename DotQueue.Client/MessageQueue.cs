@@ -20,7 +20,7 @@ namespace DotQueue.Client
         public MessageQueue(DotQueueAddress address, IApiTokenSource tokenSource = null)
         {
             _tokenSource = tokenSource;
-            _httpAdapter = new HttpAdapter<T>(address, new JsonSerializer<T>(), _tokenSource);
+            _httpAdapter = new HttpAdapter<T>(address, new JsonSerializer<T>(), new JsonSerializer<Message>(), _tokenSource);
             _listenerAdapter = new ListenerAdapter<T>();
             _portResolver = new LocalPortResolver();
             _durationHelper = new WaitDurationHelper();

@@ -21,6 +21,7 @@ namespace DotQueue.Client.Tests
         private bool _listen;
         private string _applicationJsonHeader = "application/json";
         private string _mockResponse;
+        private IJsonSerializer<Message> _messageSerializer;
 
         [SetUp]
         public void Setup()
@@ -28,9 +29,11 @@ namespace DotQueue.Client.Tests
             _requests.Clear();
             _mockResponse = "OK";
             _serializer = Substitute.For<IJsonSerializer<Profile>>();
+            _messageSerializer = Substitute.For<IJsonSerializer<Message>>();
+            _messageSerializer.Deserialize(Arg.Any<string>()).Returns(new Message { Body = "" });
             _defaultAddress = new DotQueueAddress { IpAddress = IPAddress.Parse("127.0.0.1"), Port = 8083 };
             Task.Run(() => StartMockListener());
-            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, _messageSerializer);
             Thread.Sleep(500);//guarantee tcp port opened
         }
 
@@ -56,7 +59,8 @@ namespace DotQueue.Client.Tests
         public void Pull_Sets_Category_And_Deserialize_And_Return_Item()
         {
             var profile = new Profile();
-            _mockResponse = "{test: 233}";
+            _mockResponse = "";
+            _messageSerializer.Deserialize(Arg.Any<string>()).Returns(new Message { Body = _mockResponse });
             _serializer.Deserialize(_mockResponse).Returns(profile);
 
             var actual = _adapter.Pull();
@@ -105,7 +109,7 @@ namespace DotQueue.Client.Tests
             var token = "3314-3040-4420_any_text";
             var tokenSource = Substitute.For<IApiTokenSource>();
             tokenSource.GetToken().Returns(token);
-            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, _messageSerializer, tokenSource);
 
             _adapter.Count();
 
@@ -118,7 +122,7 @@ namespace DotQueue.Client.Tests
             var token = "3314-0000-4420_any_text";
             var tokenSource = Substitute.For<IApiTokenSource>();
             tokenSource.GetToken().Returns(token);
-            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, _messageSerializer, tokenSource);
 
             _adapter.Pull();
 
@@ -131,7 +135,7 @@ namespace DotQueue.Client.Tests
             var token = "3314-2222-4420_any_text";
             var tokenSource = Substitute.For<IApiTokenSource>();
             tokenSource.GetToken().Returns(token);
-            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, _messageSerializer, tokenSource);
 
             _adapter.Pull();
 
@@ -144,7 +148,7 @@ namespace DotQueue.Client.Tests
             var token = "3314-2222-4420_any_text";
             var tokenSource = Substitute.For<IApiTokenSource>();
             tokenSource.GetToken().Returns(token);
-            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, tokenSource);
+            _adapter = new HttpAdapter<Profile>(_defaultAddress, _serializer, _messageSerializer, tokenSource);
 
             _adapter.Subscribe(2020);
 

@@ -10,11 +10,13 @@ namespace DotQueue.Client
         private DotQueueAddress _address;
         private string _type;
         private IJsonSerializer<T> _serializer;
+        private IJsonSerializer<Message> _messageSerializer;
         private IApiTokenSource _tokenSource;
 
-        public HttpAdapter(DotQueueAddress address, IJsonSerializer<T> serializer, IApiTokenSource tokenSource = null)
+        public HttpAdapter(DotQueueAddress address, IJsonSerializer<T> serializer, IJsonSerializer<Message> messageSerializer, IApiTokenSource tokenSource = null)
         {
             _tokenSource = tokenSource;
+            _messageSerializer = messageSerializer;
             _address = address;
             _type = typeof(T).Name;
             _serializer = serializer;
@@ -34,7 +36,8 @@ namespace DotQueue.Client
             var request = BuildPullHttpRequest();
             SetHeaders(request, WebRequestMethods.Http.Get);
             var json = GetResponseFromServer(request);
-            return _serializer.Deserialize(json);
+            var message = _messageSerializer.Deserialize(json);
+            return _serializer.Deserialize(message.Body.Base64Decode());
         }
 
         public int Count()
@@ -79,7 +82,7 @@ namespace DotQueue.Client
         private string BuildMessage(T message)
         {
             var msg = _serializer.Serialize(message);
-            var wrapper = new Message { Type = _type, Body = msg };
+            var wrapper = new Message { Type = _type, Body = msg.Base64Encode() };
             var postData = _serializer.Serialize(wrapper);
             return postData;
         }

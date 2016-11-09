@@ -39,6 +39,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base64Helper.cs" />
     <Compile Include="DotQueueAddress.cs" />
     <Compile Include="HttpAdapter.cs" />
     <Compile Include="IApiTokenSource.cs" />
