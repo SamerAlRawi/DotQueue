@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -15,9 +16,11 @@ namespace DotQueue.HostLib
         private HttpSelfHostServer _httpSelfHostServer;
         private int _port;
         private IApiTokenValidator _tokenValidator;
+        private long _maxMessageSize;
 
-        public QueueHost(int port, IApiTokenValidator tokenValidator = null)
+        public QueueHost(int port, IApiTokenValidator tokenValidator = null, int maxMessageSize = 65536)
         {
+            _maxMessageSize = maxMessageSize;
             _tokenValidator = tokenValidator;
             _port = port;
             ConfigureAuthentication();
@@ -46,7 +49,10 @@ namespace DotQueue.HostLib
             configuration.Routes.MapHttpRoute("DefaultApiPost", "Api/{controller}", new { action = "Post" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Post) });
             configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
             configuration.DependencyResolver = ContainerBuilder.GetContainer();
-            //configuration.Services.Replace(typeof(IExceptionHandler), new DebuggingExceptionHandler());
+            configuration.MaxReceivedMessageSize = _maxMessageSize; 
+            #if DEBUG
+            configuration.Services.Replace(typeof(IExceptionHandler), new DebuggingExceptionHandler());
+            #endif
             _httpSelfHostServer = new HttpSelfHostServer(configuration);
             _httpSelfHostServer.OpenAsync().Wait();
         }
@@ -65,7 +71,7 @@ namespace DotQueue.HostLib
     {
         public Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
-            return context.Result.ExecuteAsync(cancellationToken);
+            throw context.Exception;
         }
     }
 }
