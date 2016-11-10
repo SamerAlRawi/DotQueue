@@ -10,7 +10,7 @@ namespace DotQueue.Client.Tests
         {
             var helper = new WaitDurationHelper();
 
-            Assert.That(helper.SubscribtionRenewalSpan().Minutes, Is.EqualTo(1));
+            Assert.That(helper.SubscribtionRenewalSpan().Seconds, Is.EqualTo(10));
             Assert.That(helper.NewMessageWaitDuration().Milliseconds, Is.EqualTo(100));
         }
     }
