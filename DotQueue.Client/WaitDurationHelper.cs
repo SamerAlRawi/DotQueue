@@ -6,7 +6,7 @@ namespace DotQueue.Client
     {
         public TimeSpan SubscribtionRenewalSpan()
         {
-            return TimeSpan.FromSeconds(10);
+            return TimeSpan.FromSeconds(30);
         }
 
         public TimeSpan NewMessageWaitDuration()
