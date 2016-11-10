@@ -9,8 +9,8 @@
 - Token based authentication
 - Persistance
 - Minimal code needed to embed in your application
-- supports JSONP for cross domain in-browser access
-- REST api for other programming languages use 
+- supports JSON and XML for non dotnet languages
+- low latency and event driven subscription 
 
 #### Examples:
 [Queue host example](#hostlib)

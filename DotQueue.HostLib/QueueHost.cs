@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -8,7 +7,6 @@ using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Routing;
 using System.Web.Http.SelfHost;
 using DotQueue.HostLib.IOC;
-using WebApiContrib.Formatting.Jsonp;
 
 namespace DotQueue.HostLib
 {
@@ -38,7 +36,7 @@ namespace DotQueue.HostLib
         {
             StartApiHost();
         }
-        
+
         private void StartApiHost()
         {
             var configuration = new HttpSelfHostConfiguration($"http://0.0.0.0:{_port}");
@@ -48,7 +46,6 @@ namespace DotQueue.HostLib
             configuration.Routes.MapHttpRoute("DefaultApiPost", "Api/{controller}", new { action = "Post" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Post) });
             configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
             configuration.DependencyResolver = ContainerBuilder.GetContainer();
-            configuration.Formatters.Insert(0, new JsonpMediaTypeFormatter(new JsonMediaTypeFormatter(), "callback"));
             //configuration.Services.Replace(typeof(IExceptionHandler), new DebuggingExceptionHandler());
             _httpSelfHostServer = new HttpSelfHostServer(configuration);
             _httpSelfHostServer.OpenAsync().Wait();
@@ -68,7 +65,7 @@ namespace DotQueue.HostLib
     {
         public Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
-            return null;
+            return context.Result.ExecuteAsync(cancellationToken);
         }
     }
 }
