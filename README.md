@@ -184,6 +184,7 @@ foreach(var item in queue){
 ```
 
 ### Future work:
+- _Custom logging_
 - _Support clustering_
 - _Persistance_
 - _Routes and exchanges_
