@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace DotQueue.HostLib
 {
-    public class SubscriptionService : ISubscriptionService
+    internal class SubscriptionService : ISubscriptionService
     {
         private IMessageRepository _messageRepository;
         private ConcurrentBag<Subscriber> _subscribers = new ConcurrentBag<Subscriber>();
         private readonly ISubscribersNotificationAdapter _notificationAdapter;
+        private ISubscriptionTimer _timer;
 
-        public SubscriptionService(IMessageRepository messageRepository, ISubscribersNotificationAdapter notificationAdapter)
+        public SubscriptionService(IMessageRepository messageRepository, 
+            ISubscribersNotificationAdapter notificationAdapter, ISubscriptionTimer timer)
         {
+            _timer = timer;
             _messageRepository = messageRepository;
             _messageRepository.NewMessage += TellSubscribers;
             _notificationAdapter = notificationAdapter;
@@ -23,12 +25,20 @@ namespace DotQueue.HostLib
         {
             foreach (var client in _subscribers.Where(c => c.Category == category))
             {
-                if (client.LastNotified < DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(10)) || _messageRepository.Count(category) == 1)
+                if (DueforNotification(category, client))
                 {
                     client.LastNotified = DateTime.UtcNow;
                     _notificationAdapter.Notify(client, "new_message");
                 }
             }
+        }
+
+        private bool DueforNotification(string category, Subscriber client)
+        {
+            var leaseTimedout = client.LastNotified < DateTime.UtcNow.Subtract(_timer.RenewalInterval());
+            var haveMessagesInQueue = _messageRepository.Count(category) == 1;
+
+            return leaseTimedout || haveMessagesInQueue;
         }
 
         public void Subscribe(string clientAddress, int port, string category)

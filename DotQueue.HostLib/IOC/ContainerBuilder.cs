@@ -9,6 +9,7 @@ namespace DotQueue.HostLib.IOC
         {
             var container = new UnityContainer();
             container.RegisterType<ISubscribersNotificationAdapter, SubscribersNotificationAdapter>();
+            container.RegisterType<ISubscriptionTimer, SubscriptionTimer>();
             container.RegisterType<ISubscriptionService, SubscriptionService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IMessageRepository, MessageRepository>(new ContainerControlledLifetimeManager());
 

@@ -97,6 +97,7 @@
     <Compile Include="ApiTokenFilter.cs" />
     <Compile Include="IApiTokenValidator.cs" />
     <Compile Include="ISubscribersNotificationAdapter.cs" />
+    <Compile Include="ISubscriptionTimer.cs" />
     <Compile Include="Subscriber.cs" />
     <Compile Include="IOC\ContainerBuilder.cs" />
     <Compile Include="IOC\CustomAssemblyResolver.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="SubscribeController.cs" />
     <Compile Include="SubscribersNotificationAdapter.cs" />
     <Compile Include="SubscriptionService.cs" />
+    <Compile Include="SubscriptionTimer.cs" />
     <Compile Include="TokenValidationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
