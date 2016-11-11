@@ -6,11 +6,12 @@
 - Fully managed
 - Concurrent and thread safe
 - Pub-Sub is in it's core
+- Guarantee sequential order
 - Token based authentication
-- Persistance
 - Minimal code needed to embed in your application
 - supports JSON and XML for non dotnet languages
 - low latency and event driven subscription 
+
 
 #### Examples:
 [Queue host example](#hostlib)
@@ -181,3 +182,8 @@ foreach(var item in queue){
    //start processing items here
 }
 ```
+
+### Future work:
+- _Support clustering_
+- _Persistance_
+- _Routes and exchanges_
