@@ -10,11 +10,13 @@ namespace DotQueue.HostLib
     {
         private IMessageRepository _messageRepository;
         private ConcurrentBag<Subscriber> _subscribers = new ConcurrentBag<Subscriber>();
+        private readonly ISubscribersNotificationAdapter _notificationAdapter;
 
-        public SubscriptionService(IMessageRepository messageRepository)
+        public SubscriptionService(IMessageRepository messageRepository, ISubscribersNotificationAdapter notificationAdapter)
         {
             _messageRepository = messageRepository;
             _messageRepository.NewMessage += TellSubscribers;
+            _notificationAdapter = notificationAdapter;
         }
 
         private void TellSubscribers(object sender, string category)
@@ -24,22 +26,8 @@ namespace DotQueue.HostLib
                 if (client.LastNotified < DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(10)) || _messageRepository.Count(category) == 1)
                 {
                     client.LastNotified = DateTime.UtcNow;
-                    Notify(client, "new_message");
+                    _notificationAdapter.Notify(client, "new_message");
                 }
-            }
-        }
-
-        private void Notify(Subscriber client, string message)
-        {
-            try
-            {
-                var request = WebRequest.Create($"http://{client.IpAddress}:{client.Port}/{message}");
-                request.Method = WebRequestMethods.Http.Get;
-                request.GetResponse();
-            }
-            catch (Exception)
-            {
-                //TODO logging or remove subscriber!
             }
         }
 
@@ -50,7 +38,7 @@ namespace DotQueue.HostLib
             {
                 _subscribers.Add(address);
             }
-            Task.Run(() => Notify(address, "subscribtion_added"));
+            Task.Run(() => _notificationAdapter.Notify(address, "subscribtion_added"));
         }
     }
 }

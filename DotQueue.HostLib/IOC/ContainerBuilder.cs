@@ -8,10 +8,13 @@ namespace DotQueue.HostLib.IOC
         public static IDependencyResolver GetContainer()
         {
             var container = new UnityContainer();
+            container.RegisterType<ISubscribersNotificationAdapter, SubscribersNotificationAdapter>();
             container.RegisterType<ISubscriptionService, SubscriptionService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IMessageRepository, MessageRepository>(new ContainerControlledLifetimeManager());
+
             container.RegisterType<QueueController>(
                 new InjectionFactory(_ => new QueueController(_.Resolve<IMessageRepository>())));
+
             container.RegisterType<SubscribeController>(
                             new InjectionFactory(_ => new SubscribeController(_.Resolve<ISubscriptionService>())));
 
