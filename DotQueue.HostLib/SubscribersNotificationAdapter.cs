@@ -3,7 +3,7 @@ using System.Net;
 
 namespace DotQueue.HostLib
 {
-    public class SubscribersNotificationAdapter : ISubscribersNotificationAdapter
+    internal class SubscribersNotificationAdapter : ISubscribersNotificationAdapter
     {
         public void Notify(Subscriber client, string message)
         {
