@@ -5,6 +5,10 @@ using System.Threading;
 
 namespace DotQueue.Client
 {
+    /// <summary>
+    /// Generic queue class to send messages to queue and subscribe and listen for new messages of the type "T"
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class MessageQueue<T> : IMessageQueue<T>
     {
         private int _localPort;
@@ -40,23 +44,37 @@ namespace DotQueue.Client
             InitializeQueueTasks(address);
         }
 
+        /// <summary>
+        /// sends message to DotQueue queue
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>string: a unique identifier of the received message</returns>
         public string Add(T message)
         {
             if(message == null)
                 throw new ArgumentNullException("message");
             return _httpAdapter.Add(message);
         }
-
+        /// <summary>
+        /// pulls message from remote queue
+        /// </summary>
+        /// <returns>a message form the queue</returns>
         public T Pull()
         {
             return _httpAdapter.Pull();
         }
-
+        /// <summary>
+        /// Returns the count of messages in queue
+        /// </summary>
+        /// <returns>int: the count of messages of type(T) currently queued in the remote queue</returns>
         public int Count()
         {
             return _httpAdapter.Count();
         }
-
+        /// <summary>
+        /// Endless enumeration of messages, subscribe and pull messages and wait for new messages if queue is empty
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
             while (true)

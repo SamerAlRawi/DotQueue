@@ -10,6 +10,9 @@ using DotQueue.HostLib.IOC;
 
 namespace DotQueue.HostLib
 {
+    /// <summary>
+    /// class for hosting DotQueue queue process
+    /// </summary>
     public class QueueHost
     {
         private HttpSelfHostServer _httpSelfHostServer;
@@ -17,6 +20,12 @@ namespace DotQueue.HostLib
         private IApiTokenValidator _tokenValidator;
         private long _maxMessageSize;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="port">http port fir queue listener</param>
+        /// <param name="tokenValidator">token validation, if specified, queue will require client to send a valid token</param>
+        /// <param name="maxMessageSize">message size in bytes, override if you need to restrict message size</param>
         public QueueHost(int port, IApiTokenValidator tokenValidator = null, int maxMessageSize = 65536)
         {
             _maxMessageSize = maxMessageSize;
@@ -24,7 +33,26 @@ namespace DotQueue.HostLib
             _port = port;
             ConfigureAuthentication();
         }
-
+        /// <summary>
+        /// Start the queue listener
+        /// </summary>
+        /// <exception cref="System.ServiceModel.AddressAccessDeniedException">thrown if process identity is not permitted to open http ports</exception>
+        /// <exception cref="System.AggregateException">thrown if port is already in use</exception>
+        public void Start()
+        {
+            StartApiHost();
+        }
+        /// <summary>
+        /// stop queue listener
+        /// </summary>
+        public void Stop()
+        {
+            if (_httpSelfHostServer != null)
+            {
+                _httpSelfHostServer.CloseAsync();
+                _httpSelfHostServer.Dispose();
+            }
+        }
         private void ConfigureAuthentication()
         {
             if (_tokenValidator != null)
@@ -34,10 +62,6 @@ namespace DotQueue.HostLib
             }
         }
 
-        public void Start()
-        {
-            StartApiHost();
-        }
 
         private void StartApiHost()
         {
@@ -48,22 +72,15 @@ namespace DotQueue.HostLib
             configuration.Routes.MapHttpRoute("DefaultApiPost", "Api/{controller}", new { action = "Post" }, new { httpMethod = new HttpMethodConstraint(HttpMethod.Post) });
             configuration.Services.Replace(typeof(IAssembliesResolver), new CustomAssemblyResolver());
             configuration.DependencyResolver = ContainerBuilder.GetContainer();
-            configuration.MaxReceivedMessageSize = _maxMessageSize; 
-            #if DEBUG
+            configuration.MaxReceivedMessageSize = _maxMessageSize;
+#if DEBUG
             configuration.Services.Replace(typeof(IExceptionHandler), new DebuggingExceptionHandler());
-            #endif
+#endif
             _httpSelfHostServer = new HttpSelfHostServer(configuration);
             _httpSelfHostServer.OpenAsync().Wait();
         }
 
-        public void Stop()
-        {
-            if (_httpSelfHostServer != null)
-            {
-                _httpSelfHostServer.CloseAsync();
-                _httpSelfHostServer.Dispose();
-            }
-        }
+
     }
 
     internal class DebuggingExceptionHandler : IExceptionHandler
