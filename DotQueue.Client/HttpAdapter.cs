@@ -7,11 +7,11 @@ namespace DotQueue.Client
 {
     internal class HttpAdapter<T> : IHttpAdapter<T>
     {
-        private DotQueueAddress _address;
-        private string _type;
-        private IJsonSerializer<T> _serializer;
-        private IJsonSerializer<Message> _messageSerializer;
-        private IApiTokenSource _tokenSource;
+        private readonly DotQueueAddress _address;
+        private readonly string _type;
+        private readonly IJsonSerializer<T> _serializer;
+        private readonly IJsonSerializer<Message> _messageSerializer;
+        private readonly IApiTokenSource _tokenSource;
 
         public HttpAdapter(DotQueueAddress address, IJsonSerializer<T> serializer, IJsonSerializer<Message> messageSerializer, IApiTokenSource tokenSource = null)
         {
