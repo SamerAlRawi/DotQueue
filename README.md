@@ -26,6 +26,8 @@
 
 [Authentication - Client subscriber](#clientauth)
 
+[Persistence - Using RavenDB](#persistence_ravendb)
+
 
 
 #### <a name="hostlib"></a>Example HostLib
@@ -183,8 +185,40 @@ foreach(var item in queue){
 }
 ```
 
+#### <a name="persistence_ravendb"></a>Persistence using RavenDB
+Specifying IApiTokenSource when constructing the QueueHost will add enable persistence, 
+messages will be stored using the specified adapter and messages will be available in case of 
+system restart or service restart or update
+
+```sh
+Install-Package DotQueue.Persistence.RavenDB
+```
+
+example persistance using RavenDB
+
+starta a new Console app and copy the following code to your Main() method, 
+same apply for windows service if you are using a [topshelf windows service](#hostlibsvc):
+```csharp
+var httpPort = 8083; //Can be any other port#
+IDocumentStore address = new DocumentStore {
+    Url = "http://localhost:8080",
+    DefaultDatabase = "Customers",
+};
+var host = new QueueHost(httpPort, persistenceAdapter:new RavenDbPersistenceAdapter(address));
+host.Start();
+Console.ReadLine();
+```
+Note: you can use any RavenDB store, EmbeddableDocumentStore, RavenDbDocumentStore
+
+Or constructing DocumentStore using connection strings from `web.config` 
+```csharp
+var ravenDbdocumentStore = new DocumentStore
+{
+    ConnectionStringName = "YOUR_ConnectionStringName"
+};
+```
+
 ### Future work:
-- _Custom logging_
-- _Support clustering_
-- _Persistance_
+- _Support for clustering and failover_
+- _Persistance sqlite, couchdb, etc.._
 - _Routes and exchanges_

@@ -16,23 +16,29 @@ namespace DotQueue.HostLib
     public class QueueHost
     {
         private HttpSelfHostServer _httpSelfHostServer;
-        private int _port;
-        private IApiTokenValidator _tokenValidator;
-        private long _maxMessageSize;
+        private readonly int _port;
+        private readonly IApiTokenValidator _tokenValidator;
+        private readonly long _maxMessageSize;
+        private readonly IPersistenceAdapter _persistenceAdapter;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="port">http port fir queue listener</param>
         /// <param name="tokenValidator">token validation, if specified, queue will require client to send a valid token</param>
+        /// <param name="persistenceAdapter">persistance adapter, queue will persist messages if thie argument is specified</param>
         /// <param name="maxMessageSize">message size in bytes, override if you need to restrict message size</param>
-        public QueueHost(int port, IApiTokenValidator tokenValidator = null, int maxMessageSize = 65536)
+        public QueueHost(int port, IApiTokenValidator tokenValidator = null, IPersistenceAdapter persistenceAdapter = null,
+            int maxMessageSize = 65536)
         {
+            _persistenceAdapter = persistenceAdapter;
             _maxMessageSize = maxMessageSize;
             _tokenValidator = tokenValidator;
             _port = port;
             ConfigureAuthentication();
+            ConfigurePersistance();
         }
+
         /// <summary>
         /// Start the queue listener
         /// </summary>
@@ -62,6 +68,14 @@ namespace DotQueue.HostLib
             }
         }
 
+        private void ConfigurePersistance()
+        {
+            if (_persistenceAdapter != null)
+            {
+                PersistanceProvider.PersistMessages = true;
+                PersistanceProvider.Adapter = _persistenceAdapter;
+            }
+        }
 
         private void StartApiHost()
         {

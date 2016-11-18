@@ -10,8 +10,17 @@ namespace DotQueue.HostLib.IOC
             var container = new UnityContainer();
             container.RegisterType<ISubscribersNotificationAdapter, SubscribersNotificationAdapter>();
             container.RegisterType<ISubscriptionTimer, SubscriptionTimer>();
+            if (PersistanceProvider.PersistMessages)
+            {
+                container.RegisterInstance(typeof(IPersistenceAdapter), PersistanceProvider.Adapter);
+                container.RegisterType<IMessageRepository, PersistenceMessageRepository>(new ContainerControlledLifetimeManager());
+            }
+            else
+            {
+                container.RegisterType<IMessageRepository, MessageRepository>(new ContainerControlledLifetimeManager());
+            }
+
             container.RegisterType<ISubscriptionService, SubscriptionService>(new ContainerControlledLifetimeManager());
-            container.RegisterType<IMessageRepository, MessageRepository>(new ContainerControlledLifetimeManager());
 
             container.RegisterType<QueueController>(
                 new InjectionFactory(_ => new QueueController(_.Resolve<IMessageRepository>())));

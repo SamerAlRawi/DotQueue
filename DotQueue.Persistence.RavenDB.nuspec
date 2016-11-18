@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>DotQueue.Persistence.RavenDB</id>
+    <version>1.0.0</version>
+    <authors>Samer Al-Rawi</authors>
+    <projectUrl>https://github.com/SamerAlRawi/DotQueue</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Persistence using RavenDB for DotQueue the lightweight thread-safe queue framework</description>
+    <summary>DotQueue.Persistence.RavenDB package</summary>
+    <copyright>Copyright Samer Al-Rawi</copyright>
+    <language>en-US</language>
+    <dependencies>
+		<dependency id="RavenDB.Client" version="3.5.1" />
+		<dependency id="DotQueue.HostLib" version="1.0.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="DotQueue.Persistence.RavenDB\bin\release\DotQueue.Persistence.RavenDB.dll" target="lib\net45\DotQueue.Persistence.RavenDB.dll" />
+  </files>
+</package>

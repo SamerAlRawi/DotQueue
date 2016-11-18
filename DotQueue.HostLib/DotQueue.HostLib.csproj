@@ -96,8 +96,11 @@
   <ItemGroup>
     <Compile Include="ApiTokenFilter.cs" />
     <Compile Include="IApiTokenValidator.cs" />
+    <Compile Include="IPersistenceAdapter.cs" />
     <Compile Include="ISubscribersNotificationAdapter.cs" />
     <Compile Include="ISubscriptionTimer.cs" />
+    <Compile Include="PersistanceProvider.cs" />
+    <Compile Include="PersistenceMessageRepository.cs" />
     <Compile Include="Subscriber.cs" />
     <Compile Include="IOC\ContainerBuilder.cs" />
     <Compile Include="IOC\CustomAssemblyResolver.cs" />

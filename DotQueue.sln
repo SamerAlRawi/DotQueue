@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueueSubscriber", "DotQu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueueTester", "DotQueueTester\DotQueueTester.csproj", "{29895999-5FC3-48F6-8155-FBB375EE9596}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Persistence.RavenDB", "DotQueue.Persistence.RavenDB\DotQueue.Persistence.RavenDB.csproj", "{153B0ED7-539C-4C39-8873-886245AEFF49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueuePersistenceHost", "DotQueuePersistenceHost\DotQueuePersistenceHost.csproj", "{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +82,14 @@ Global
 		{29895999-5FC3-48F6-8155-FBB375EE9596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29895999-5FC3-48F6-8155-FBB375EE9596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29895999-5FC3-48F6-8155-FBB375EE9596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{153B0ED7-539C-4C39-8873-886245AEFF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153B0ED7-539C-4C39-8873-886245AEFF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{153B0ED7-539C-4C39-8873-886245AEFF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{153B0ED7-539C-4C39-8873-886245AEFF49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,5 +102,6 @@ Global
 		{1D7AB0D7-D917-4522-853B-3D33A1FDC8E7} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
 		{41455544-1DB4-4302-BD24-F1E28E0C2BAB} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
 		{FDD76CE0-48AF-4643-9093-E7E3D6A0A08A} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
+		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
 	EndGlobalSection
 EndGlobal
