@@ -64,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueControllerTests.cs" />
     <Compile Include="QueueHostTests.cs" />
+    <Compile Include="SubscriptionServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
