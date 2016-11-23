@@ -12,7 +12,7 @@
     <language>en-US</language>
     <dependencies>
 		<dependency id="RavenDB.Client" version="3.5.1" />
-		<dependency id="DotQueue.HostLib" version="1.0.5" />
+		<dependency id="DotQueue.HostLib" version="1.0.6" />
     </dependencies>
   </metadata>
   <files>
