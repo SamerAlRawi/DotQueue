@@ -5,7 +5,7 @@ namespace DotQueue.HostLib
     public interface IPersistenceAdapter
     {
         IEnumerable<Message> GetAll();
-        void Add(Message customer);
+        void Add(Message message);
         void Delete(Message customer);
     }
 }

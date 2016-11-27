@@ -24,11 +24,11 @@ namespace DotQueue.Persistence.RavenDB
             }
         }
 
-        public void Add(Message customer)
+        public void Add(Message message)
         {
             using (IDocumentSession session = _documentStore.OpenSession())
             {
-                session.Store(customer);
+                session.Store(message);
                 session.SaveChanges();
             }
         }

@@ -28,7 +28,7 @@
 
 [Persistence - Using RavenDB](#persistence_ravendb)
 
-
+[Persistence - Using SQLite](#persistence_sqlite)
 
 #### <a name="hostlib"></a>Example HostLib
 
@@ -218,7 +218,42 @@ var ravenDbdocumentStore = new DocumentStore
 };
 ```
 
+
+#### <a name="persistence_sqlite"></a>Persistence using SQLite
+SQLite is a lightweight single file transactional database, 
+good candidate for storing thousands to few millions of records
+
+```sh
+Install-Package DotQueue.Persistence.SQLite
+```
+
+example persistance using SQLite
+
+starta a new Console app and copy the following code to your Main() method, 
+same apply for windows service if you are using a [topshelf windows service](#hostlibsvc):
+```csharp
+var httpPort = 8083; //Can be any other port#
+
+var host = new QueueHost(httpPort, persistenceAdapter:new SQLitePersistenceAdapter());
+host.Start();
+Console.ReadLine();
+```
+the data file witll be created in the same location as your executable.
+
+make sure your process have permission to read and right to that directory if you get any File.IO permission errors.
+
+PLUS: add the following to your `web.confg` if you are running under ASP.net 
+Or add it to `app.config` if you are running a windows app
+
+```xml
+<configuration>
+    <startup useLegacyV2RuntimeActivationPolicy="true"> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
+    </startup>
+</configuration>
+```
+
 ### Future work:
 - _Support for clustering and failover_
-- _Persistance sqlite, couchdb, etc.._
+- _Persistance mongodb, etc.._
 - _Routes and exchanges_

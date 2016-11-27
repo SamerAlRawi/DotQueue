@@ -15,7 +15,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Client.Tests", "Do
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A1C525C-C42D-4432-A948-E049BE5C1F21}"
 	ProjectSection(SolutionItems) = preProject
+		DotQueue.Client.nuspec = DotQueue.Client.nuspec
+		DotQueue.HostLib.nuspec = DotQueue.HostLib.nuspec
+		DotQueue.Persistence.RavenDB.nuspec = DotQueue.Persistence.RavenDB.nuspec
+		DotQueue.Persistence.SQLite.nuspec = DotQueue.Persistence.SQLite.nuspec
+		publish.bat = publish.bat
 		README.md = README.md
+		release.bat = release.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{4D58C79E-CDA6-416C-83FC-9E5E187F2098}"
@@ -35,6 +41,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Persistence.RavenDB", "DotQueue.Persistence.RavenDB\DotQueue.Persistence.RavenDB.csproj", "{153B0ED7-539C-4C39-8873-886245AEFF49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueuePersistenceHost", "DotQueuePersistenceHost\DotQueuePersistenceHost.csproj", "{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Persistence.SQLite", "DotQueue.Persistence.SQLite\DotQueue.Persistence.SQLite.csproj", "{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +98,10 @@ Global
 		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

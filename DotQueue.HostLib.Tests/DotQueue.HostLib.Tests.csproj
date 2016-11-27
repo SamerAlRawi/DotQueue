@@ -75,6 +75,7 @@
     <Compile Include="QueueControllerTests.cs" />
     <Compile Include="QueueHostTests.cs" />
     <Compile Include="RavenDbPersistenceAdapterTests.cs" />
+    <Compile Include="SQLitePersistenceAdapterTests.cs" />
     <Compile Include="SubscriptionServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,10 @@
     <ProjectReference Include="..\DotQueue.Persistence.RavenDB\DotQueue.Persistence.RavenDB.csproj">
       <Project>{153B0ED7-539C-4C39-8873-886245AEFF49}</Project>
       <Name>DotQueue.Persistence.RavenDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotQueue.Persistence.SQLite\DotQueue.Persistence.SQLite.csproj">
+      <Project>{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}</Project>
+      <Name>DotQueue.Persistence.SQLite</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
