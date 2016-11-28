@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueuePersistenceHost", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Persistence.SQLite", "DotQueue.Persistence.SQLite\DotQueue.Persistence.SQLite.csproj", "{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotQueue.Persistence.SQLite.Tests", "DotQueue.Persistence.SQLite.Tests\DotQueue.Persistence.SQLite.Tests.csproj", "{35B033A8-015A-40C4-A4EA-A9432839073F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{187AF6F2-4A14-4C43-8FD1-743A0EE6E020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35B033A8-015A-40C4-A4EA-A9432839073F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35B033A8-015A-40C4-A4EA-A9432839073F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35B033A8-015A-40C4-A4EA-A9432839073F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35B033A8-015A-40C4-A4EA-A9432839073F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,5 +121,6 @@ Global
 		{41455544-1DB4-4302-BD24-F1E28E0C2BAB} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
 		{FDD76CE0-48AF-4643-9093-E7E3D6A0A08A} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
 		{9CA9C0EC-1714-4EE9-98D8-B53C8E2B636D} = {4D58C79E-CDA6-416C-83FC-9E5E187F2098}
+		{35B033A8-015A-40C4-A4EA-A9432839073F} = {584691AB-BAC5-4063-AC6C-F52DE692F8CD}
 	EndGlobalSection
 EndGlobal
