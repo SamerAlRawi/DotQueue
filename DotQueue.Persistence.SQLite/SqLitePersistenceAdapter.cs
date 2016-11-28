@@ -14,10 +14,10 @@ namespace DotQueue.Persistence.SQLite
         private readonly ICommandQueue _commandQueue;
         private readonly ICommandBuilder _commandBuilder;
 
-        #region fields
+        #region constructors
         public SQLitePersistenceAdapter()
         {
-            //need to look into introducing an IoC and get rid of manual constrution
+            //need to look into introducing an IoC container and get rid of manual constrution
             _commandBuilder = new CommandBuilder();
             var dataFileHelper = new DataFileHelper(new ConnectionStringBuilder());
             dataFileHelper.CreateDataFileAndTable();
