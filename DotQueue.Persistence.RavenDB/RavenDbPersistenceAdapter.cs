@@ -8,7 +8,7 @@ namespace DotQueue.Persistence.RavenDB
 {
     public class RavenDbPersistenceAdapter : IPersistenceAdapter
     {
-        private IDocumentStore _documentStore;
+        private readonly IDocumentStore _documentStore;
 
         public RavenDbPersistenceAdapter(IDocumentStore documentStore)
         {

@@ -2,11 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DotQueue.Client</id>
+    <title>DotQueue.Client</title>
     <version>1.0.2</version>
     <authors>Samer Al-Rawi</authors>
     <projectUrl>https://github.com/SamerAlRawi/DotQueue</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Client library for DotQueue the lightweight thread-safe queue framework</description>
+    <description>Client library for DotQueue the lightweight server client thread-safe queue framework</description>
     <summary>DotQueue.Client package</summary>
     <copyright>Copyright Samer Al-Rawi</copyright>
     <language>en-US</language>
