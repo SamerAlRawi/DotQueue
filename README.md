@@ -242,8 +242,10 @@ the data file witll be created in the same location as your executable.
 
 make sure your process have permission to read and right to that directory if you get any File.IO permission errors.
 
-PLUS: add the following to your `web.confg` if you are running under ASP.net 
-Or add it to `app.config` if you are running a windows app
+Note: add the following to your `web.confg` if you are running under ASP.net 
+Or add it to `app.config` if you are running a windows app to prevent the mismatching framework versions `
+Additional information: Mixed mode assembly is built against version 'v2.0.50727' of the runtime and cannot be loaded in the 4.0 runtime without additional configuration information.
+`
 
 ```xml
 <configuration>
