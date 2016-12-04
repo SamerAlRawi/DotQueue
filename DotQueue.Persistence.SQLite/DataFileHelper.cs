@@ -27,7 +27,7 @@ namespace DotQueue.Persistence.SQLite
             if (!File.Exists(_filePath.Value))
             {
                 SQLiteConnection.CreateFile(_filePath.Value);
-                var sql = "create table messages (table_id bigint primary key, id varchar(50), type varchar(150), body text);";
+                var sql = "create table messages (table_id INTEGER primary key NOT NULL, id varchar(50), type varchar(150), body text);";
                 using (var conn = new SQLiteConnection(_connectionStringBuilder.Build(_filePath.Value)))
                 {
                     using (var cmd = new SQLiteCommand { CommandText = sql, CommandType = CommandType.Text })
