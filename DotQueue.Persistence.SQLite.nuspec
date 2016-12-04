@@ -15,6 +15,8 @@
         </dependencies>
     </metadata>
     <files>
+        <file src="DotQueue.Persistence.SQLite.NugetXDT\web.config.install.xdt" target="content\web.config.install.xdt" />
+        <file src="DotQueue.Persistence.SQLite.NugetXDT\web.config.uninstall.xdt" target="content\web.config.uninstall.xdt" />
         <file src="DotQueue.Persistence.SQLite.NugetXDT\app.config.install.xdt" target="content\app.config.install.xdt" />
         <file src="DotQueue.Persistence.SQLite.NugetXDT\app.config.uninstall.xdt" target="content\app.config.uninstall.xdt" />
         <file src="DotQueue.Persistence.SQLite\bin\release\DotQueue.Persistence.SQLite.dll" target="lib\net45\DotQueue.Persistence.SQLite.dll" />
