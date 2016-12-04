@@ -1,21 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-  <metadata>
-    <id>DotQueue.Persistence.SQLite</id>
-    <version>1.0.0</version>
-    <authors>Samer Al-Rawi</authors>
-    <projectUrl>https://github.com/SamerAlRawi/DotQueue</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Persistence using SQLite for DotQueue the lightweight thread-safe queue framework</description>
-    <summary>DotQueue.Persistence.SQLite package</summary>
-    <copyright>Copyright Samer Al-Rawi</copyright>
-    <language>en-US</language>
-    <dependencies>
-		<dependency id="DotQueue.HostLib" version="1.0.6" />
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="DotQueue.Persistence.SQLite\bin\release\DotQueue.Persistence.SQLite.dll" target="lib\net45\DotQueue.Persistence.SQLite.dll" />
-    <file src="DotQueue.Persistence.SQLite\bin\release\System.Data.SQLite.dll" target="lib\net45\System.Data.SQLite.dll" />
-  </files>
+    <metadata>
+        <id>DotQueue.Persistence.SQLite</id>
+        <version>1.0.0</version>
+        <authors>Samer Al-Rawi</authors>
+        <projectUrl>https://github.com/SamerAlRawi/DotQueue</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Persistence using SQLite for DotQueue the lightweight thread-safe queue framework</description>
+        <summary>DotQueue.Persistence.SQLite package</summary>
+        <copyright>Copyright Samer Al-Rawi</copyright>
+        <language>en-US</language>
+        <dependencies>
+            <dependency id="DotQueue.HostLib" version="1.0.6" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="DotQueue.Persistence.SQLite.NugetXDT\app.config.install.xdt" target="content\app.config.install.xdt" />
+        <file src="DotQueue.Persistence.SQLite.NugetXDT\app.config.uninstall.xdt" target="content\app.config.uninstall.xdt" />
+        <file src="DotQueue.Persistence.SQLite\bin\release\DotQueue.Persistence.SQLite.dll" target="lib\net45\DotQueue.Persistence.SQLite.dll" />
+        <file src="DotQueue.Persistence.SQLite\bin\release\System.Data.SQLite.dll" target="lib\net45\System.Data.SQLite.dll" />
+    </files>
 </package>
