@@ -14,7 +14,7 @@
 
 
 #### Examples:
-[Queue host example](#hostlib)
+[Queue Server(HostLib) example](#hostlib)
 
 [Example HostLib(Windows service) using topshelf](#hostlibsvc)
 
