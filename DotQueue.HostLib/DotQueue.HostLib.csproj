@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiHostConfigurationBuilder.cs" />
     <Compile Include="ApiTokenFilter.cs" />
     <Compile Include="IApiTokenValidator.cs" />
     <Compile Include="IPersistenceAdapter.cs" />

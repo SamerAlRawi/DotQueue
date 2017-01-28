@@ -37,7 +37,7 @@ namespace DotQueue.HostLib.Tests
         }
         
         [Test]
-        public void Http401_If_No_Token_specified()
+        public void Http401_If_Token_Is_Not_Specified()
         {
             var tokenValidator = Substitute.For<IApiTokenValidator>();
             string tokenValue = "token_123422";
