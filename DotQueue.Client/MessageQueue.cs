@@ -142,7 +142,11 @@ namespace DotQueue.Client
                 Thread.Sleep(_durationHelper.NewMessageWaitDuration());
             }
         }
-
+        /// <summary>
+        /// subsrcibes to message queue, returns true if subscription succeeded, false otherwise
+        /// </summary>
+        /// <param name="localPort"></param>
+        /// <returns></returns>
         private bool SubscribeToQueue(int localPort)
         {
             return _httpAdapter.Subscribe(localPort);
