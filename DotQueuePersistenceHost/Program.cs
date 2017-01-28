@@ -1,8 +1,6 @@
 ﻿using System;
 using DotQueue.HostLib;
 using DotQueue.Persistence.SQLite;
-using Raven.Client;
-using Raven.Client.Document;
 
 namespace DotQueuePersistenceHost
 {
