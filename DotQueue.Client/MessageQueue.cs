@@ -28,7 +28,7 @@ namespace DotQueue.Client
             _listenerAdapter = new ListenerAdapter<T>();
             _portResolver = new LocalPortResolver();
             _durationHelper = new WaitDurationHelper();
-            InitializeQueueTasks(address);
+            InitializeQueueTasks();
         }
 
         internal MessageQueue(DotQueueAddress address, 
@@ -41,7 +41,7 @@ namespace DotQueue.Client
             _portResolver = portResolver;
             _listenerAdapter = listenerAdapter;
             _httpAdapter = httpAdapter;
-            InitializeQueueTasks(address);
+            InitializeQueueTasks();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace DotQueue.Client
             return GetEnumerator();
         }
 
-        private void InitializeQueueTasks(DotQueueAddress address)
+        private void InitializeQueueTasks()
         {
             _localPort = _portResolver.FindFreePort();
             _listenerAdapter.StartListener(_localPort);
