@@ -48,6 +48,7 @@ namespace DotQueue.Client
         /// sends message to DotQueue queue
         /// </summary>
         /// <param name="message"></param>
+        /// <exception cref="ArgumentNullException">thrown if message is null</exception>
         /// <returns>string: a unique identifier of the received message</returns>
         public string Add(T message)
         {

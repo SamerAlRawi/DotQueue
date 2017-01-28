@@ -33,7 +33,8 @@ namespace DotQueue.HostLib
         public Message Pull(string messageType)
         {
             var message = base.Pull(messageType);
-            _persistenceAdapter.Delete(message);
+            if(message != null)
+                _persistenceAdapter.Delete(message);
             return message;
         }
     }
