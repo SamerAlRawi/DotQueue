@@ -1,4 +1,4 @@
-# DotQueue
+# DotQueue DEPRECATED
 
 #### a lightweight queue for .net
 
